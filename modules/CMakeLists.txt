@@ -1,8 +1,7 @@
 # Copyright 2025 by Amir Nourinia
 # src
 
-add_library(datastructures-and-algorithms STATIC
-        src/datastructures/DynamicArray/DynamicArray.cpp)
+add_library(datastructures-and-algorithms STATIC)
 # thanks to https://gitlab.kitware.com/cmake/cmake/-/issues/25493
 # and https://www.kitware.com/import-cmake-the-experiment-is-over/
 # also interesting, https://www.kitware.com/import-std-in-cmake-3-30/
@@ -11,6 +10,7 @@ target_sources(datastructures-and-algorithms
         src/algorithms/ASort.cpp
         src/datastructures/List/List.cpp
         src/datastructures/ListQueue/ListQueue.cpp
+        src/datastructures/DynamicArray/DynamicArray.cpp
         PUBLIC
         FILE_SET all_modules
         TYPE CXX_MODULES

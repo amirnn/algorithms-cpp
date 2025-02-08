@@ -7,25 +7,25 @@ import :IList;
 
 export namespace datastructures {
     template<typename T>
-    class DynamicArray : IList<T> {
+    class DynamicArray final : IList<T> {
     public:
         [[nodiscard]] int64_t size() const noexcept override;
 
         [[nodiscard]] T &operator[](int64_t index) override;
 
-        void PushFront(T &&element) noexcept override;
+        void pushFront(T &&element) noexcept override;
 
-        void PushBack(T &&element) noexcept override;
+        void pushBack(T &&element) noexcept override;
 
-        void PushAt(int64_t index, T &&item) override;
+        void pushAt(int64_t index, T &&item) override;
 
         [[nodiscard]] T popFront() override;
 
-        [[nodiscard]] T PopBack() override;
+        [[nodiscard]] T popBack() override;
 
         [[nodiscard]] T popAt(int64_t index) override;
 
-        void Set(int64_t index, T &&value) override;
+        void set(int64_t index, T &&value) override;
 
         void clear() noexcept override;
 
