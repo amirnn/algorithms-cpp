@@ -11,6 +11,8 @@ namespace datastructures {
         algorithms::ASort<T> sortingAlgorithm = algorithm();
         sortingAlgorithm.sort(this);
     }
+
 }
+
 
 

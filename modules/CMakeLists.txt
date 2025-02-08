@@ -7,19 +7,26 @@ add_library(datastructures-and-algorithms STATIC)
 # also interesting, https://www.kitware.com/import-std-in-cmake-3-30/
 target_sources(datastructures-and-algorithms
         PRIVATE
-        src/algorithms/Sort.cpp
+        src/algorithms/ASort.cpp
         src/datastructures/List.cpp
+        src/datastructures/ListQueue.cpp
         PUBLIC
         FILE_SET all_modules
         TYPE CXX_MODULES
         BASE_DIRS
         include/datastructures
         include/algorithms
+        # partitions
+        src/datastructures
+        src/algorithms
         FILES
         # data structures
         include/datastructures/List.ixx
+        src/datastructures/IList.ixx
+        src/datastructures/ListQueue.ixx
         # algorithms
         include/algorithms/Sort.ixx
+        src/algorithms/ASort.ixx
 )
 
 add_executable(main)
