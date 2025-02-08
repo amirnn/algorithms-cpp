@@ -4,4 +4,5 @@ export module List;
 
 export import :IList;
 export import :ListQueue;
+export import :DynamicArray;
 
