@@ -1,6 +1,4 @@
-//
-// Created by Amir Nourinia on 07.02.25.
-//
+// Copyright 2025 by Amir Nourinia
 
 module;
 #include <cstdint>
@@ -12,7 +10,7 @@ namespace datastructures {
     class ASortableList;
 }
 
-export module ASort;
+export module Sort;
 
 export namespace algorithms {
     template<std::totally_ordered T>

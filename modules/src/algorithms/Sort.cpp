@@ -1,11 +1,9 @@
-//
-// Created by Amir Nourinia on 07.02.25.
-//
+// Copyright 2025 by Amir Nourinia
 
 module;
 #include <concepts>
 #include <sys/types.h>
-module ASort;
+module Sort;
 
 namespace algorithms {
     template<std::totally_ordered T>

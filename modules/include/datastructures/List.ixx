@@ -1,7 +1,6 @@
 // Copyright 2025 by Amir Nourinia
 
 module;
-#include <cstdint>
 #include <concepts>
 #include <functional>
 

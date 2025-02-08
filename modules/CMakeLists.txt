@@ -1,0 +1,32 @@
+# Copyright 2025 by Amir Nourinia
+# src
+
+add_library(datastructures-and-algorithms STATIC)
+# thanks to https://gitlab.kitware.com/cmake/cmake/-/issues/25493
+# and https://www.kitware.com/import-cmake-the-experiment-is-over/
+# also interesting, https://www.kitware.com/import-std-in-cmake-3-30/
+target_sources(datastructures-and-algorithms
+        PRIVATE
+        src/algorithms/Sort.cpp
+        src/datastructures/List.cpp
+        PUBLIC
+        FILE_SET all_modules
+        TYPE CXX_MODULES
+        BASE_DIRS
+        include/datastructures
+        include/algorithms
+        FILES
+        # data structures
+        include/datastructures/List.ixx
+        # algorithms
+        include/algorithms/Sort.ixx
+)
+
+add_executable(main)
+target_sources(main
+        PRIVATE
+        src/main.cpp
+)
+
+target_link_libraries(main PRIVATE datastructures-and-algorithms)
+
