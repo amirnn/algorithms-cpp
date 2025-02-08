@@ -17,15 +17,15 @@ export namespace datastructures {
 
         void PushBack(T &&element) noexcept override;
 
-        void pushAt(int64_t index, T &&item) override;
+        void PushAt(int64_t index, T &&item) override;
 
         [[nodiscard]] T popFront() override;
 
-        [[nodiscard]] T popBack() override;
+        [[nodiscard]] T PopBack() override;
 
         [[nodiscard]] T popAt(int64_t index) override;
 
-        void set(int64_t index, T &&value) override;
+        void Set(int64_t index, T &&value) override;
 
         void clear() noexcept override;
 

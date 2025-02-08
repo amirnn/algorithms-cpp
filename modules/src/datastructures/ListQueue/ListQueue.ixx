@@ -19,9 +19,9 @@ namespace datastructures {
 
         [[nodiscard]] T &operator[](int64_t index) override;
 
-        void PushFront(T &&element) noexcept override;
+        void pushFront(T &&element) noexcept override;
 
-        void PushBack(T &&element) noexcept override;
+        void pushBack(T &&element) noexcept override;
 
         void pushAt(int64_t index, T &&item) override;
 

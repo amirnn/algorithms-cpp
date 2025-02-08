@@ -54,9 +54,9 @@ export namespace datastructures {
             return getTail();
         }
 
-        virtual void PushFront(T &&element) noexcept = 0;
+        virtual void pushFront(T &&element) noexcept = 0;
 
-        virtual void PushBack(T &&element) noexcept = 0;
+        virtual void pushBack(T &&element) noexcept = 0;
 
         virtual void pushAt(int64_t index, T &&item) = 0;
 
@@ -80,4 +80,5 @@ export namespace datastructures {
 
         void sort(std::function<algorithms::ASort<T>()> const &algorithm);
     };
+
 }
