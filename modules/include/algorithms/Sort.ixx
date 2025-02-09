@@ -6,6 +6,7 @@ export import :ASort;
 export import :HeapSort;
 export import :InsertionSort;
 export import :MergeSort;
+export import :QuickSort;
 export import :SelectionSort;
 
 

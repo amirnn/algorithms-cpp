@@ -15,8 +15,9 @@ target_sources(datastructures-and-algorithms
         src/algorithms/Sorts/ASort/ASort.cpp
         src/algorithms/Sorts/HeapSort/HeapSort.cpp
         src/algorithms/Sorts/InsertionSort/InsertionSort.cpp
-        src/algorithms/Sorts/SelectionSort/SelectionSort.cpp
         src/algorithms/Sorts/MergeSort/MergeSort.cpp
+        src/algorithms/Sorts/QuickSort/QuickSort.cpp
+        src/algorithms/Sorts/SelectionSort/SelectionSort.cpp
         PUBLIC
         FILE_SET all_modules
         TYPE CXX_MODULES
@@ -38,6 +39,7 @@ target_sources(datastructures-and-algorithms
         src/algorithms/Sorts/HeapSort/HeapSort.ixx
         src/algorithms/Sorts/InsertionSort/InsertionSort.ixx
         src/algorithms/Sorts/MergeSort/MergeSort.ixx
+        src/algorithms/Sorts/QuickSort/QuickSort.ixx
         src/algorithms/Sorts/SelectionSort/SelectionSort.ixx
 )
 

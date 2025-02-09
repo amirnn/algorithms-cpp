@@ -2,19 +2,13 @@
 
 module;
 #include <concepts>
+export module Sort:QuickSort;
 
-// // forward declaration
-// namespace datastructures {
-//     template<std::totally_ordered T>
-//     class ASortableList;
-// }
-
-export module Sort:InsertionSort;
 import :ASort;
 
 namespace algorithms {
     template<std::totally_ordered T>
-    class InsertionSort final: public ASort<T> {
+    class QuickSort final: ASort<T> {
     public:
         void sort(typename ASort<T>::ASortableList* data) override;
     };

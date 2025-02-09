@@ -4,11 +4,11 @@ module;
 #include <concepts>
 #include <stdexcept>
 module Sort;
-import List;
+// import List;
 
 namespace algorithms {
     template<std::totally_ordered T>
-    void HeapSort<T>::sort(datastructures::ASortableList<T> *data) {
+    void HeapSort<T>::sort(typename ASort<T>::ASortableList* data) {
         if(data == nullptr) throw std::invalid_argument("Null pointer");
         this->m_data = data;
     }

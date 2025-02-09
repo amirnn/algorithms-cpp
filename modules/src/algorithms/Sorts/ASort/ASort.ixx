@@ -21,9 +21,10 @@ export namespace algorithms {
         virtual ~ASort() = default;
 
         [[nodiscard]] bool isSorted() const noexcept;
-
+    protected:
         void exchange(int64_t i, int64_t j);
 
+    public:
         /**
          * the children will need to only implement this method
          */
