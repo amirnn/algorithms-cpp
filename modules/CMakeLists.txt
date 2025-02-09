@@ -9,7 +9,7 @@ target_sources(datastructures-and-algorithms
         PRIVATE
         #datastructures
         src/datastructures/List/AList.cpp
-        src/datastructures/ListQueue/ListQueue.cpp
+        # src/datastructures/ListQueue/ListQueue.cpp
         src/datastructures/DynamicArray/DynamicArray.cpp
         #algorithms
         src/algorithms/Sorts/ASort/ASort.cpp
