@@ -5,4 +5,10 @@
 import List;
 import Sort;
 
-int main(int32_t argc, char **argv) { return EXIT_SUCCESS; }
+int main(int32_t argc, char **argv) {
+  using namespace datastructures;
+  using namespace algorithms;
+  ListQueue<double> list;
+
+  return EXIT_SUCCESS;
+}

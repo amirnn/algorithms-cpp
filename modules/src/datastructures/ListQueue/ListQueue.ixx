@@ -6,7 +6,7 @@ module;
 export module List:ListQueue;
 import :IList;
 
-namespace datastructures {
+export namespace datastructures {
 template <typename T>
 class ListQueue final : public AList<T> {
  public:
