@@ -5,7 +5,4 @@
 import List;
 import Sort;
 
-int main(int32_t argc, char** argv) {
-
-    return EXIT_SUCCESS;
-}
+int main(int32_t argc, char **argv) { return EXIT_SUCCESS; }
