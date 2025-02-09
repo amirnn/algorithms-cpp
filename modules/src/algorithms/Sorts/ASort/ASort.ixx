@@ -27,9 +27,9 @@ export namespace algorithms {
         /**
          * the children will need to only implement this method
          */
-        virtual void sort(ASortableList data) = 0;
+        virtual void sort(ASortableList* data) = 0;
 
     protected:
-        ASortableList *m_data = nullptr;
+        ASortableList* m_data = nullptr;
     };
 }
