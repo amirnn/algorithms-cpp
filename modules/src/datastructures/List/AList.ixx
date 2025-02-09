@@ -15,9 +15,9 @@ export module List:IList;
 
 export namespace datastructures {
     template<typename T>
-    class IList {
+    class AList {
     public:
-        virtual ~IList() = default;
+        virtual ~AList() = default;
 
         // getters
         [[nodiscard]] virtual int64_t size() const noexcept = 0;
@@ -74,7 +74,7 @@ export namespace datastructures {
 
     // using: ()->ISort<T>
     template<std::totally_ordered T>
-    class ASortableList : IList<T> {
+    class ASortableList : AList<T> {
     public:
         ~ASortableList() override = default;
 

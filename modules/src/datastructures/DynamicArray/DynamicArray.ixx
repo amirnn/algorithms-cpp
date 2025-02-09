@@ -7,7 +7,7 @@ import :IList;
 
 export namespace datastructures {
     template<typename T>
-    class DynamicArray final : IList<T> {
+    class DynamicArray final : AList<T> {
     public:
         [[nodiscard]] int64_t size() const noexcept override;
 

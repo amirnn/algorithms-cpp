@@ -8,7 +8,7 @@ import :IList;
 
 namespace datastructures {
     template<typename T>
-    class ListQueue final : public IList<T> {
+    class ListQueue final : public AList<T> {
     public:
         class Node;
 

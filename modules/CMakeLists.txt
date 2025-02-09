@@ -8,7 +8,7 @@ add_library(datastructures-and-algorithms STATIC)
 target_sources(datastructures-and-algorithms
         PRIVATE
         #datastructures
-        src/datastructures/List/List.cpp
+        src/datastructures/List/AList.cpp
         src/datastructures/ListQueue/ListQueue.cpp
         src/datastructures/DynamicArray/DynamicArray.cpp
         #algorithms
@@ -30,7 +30,7 @@ target_sources(datastructures-and-algorithms
         FILES
         # data structures
         include/datastructures/List.ixx
-        src/datastructures/List/IList.ixx
+        src/datastructures/List/AList.ixx
         src/datastructures/ListQueue/ListQueue.ixx
         src/datastructures/DynamicArray/DynamicArray.ixx
         # algorithms
