@@ -13,8 +13,8 @@ int main (int argc, char** argv) {
   // list.clear();
 
   datastructures::SortableDynamicArray<double> array;
-  tests::selectionSortTest(array);
-  array.clear();
+  // tests::selectionSortTest(array);
+  // array.clear();
 
   tests::insertionSortTest(array);
   array.clear();

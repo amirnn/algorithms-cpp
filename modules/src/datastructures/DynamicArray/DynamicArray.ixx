@@ -12,7 +12,6 @@ template <typename T>
 class DynamicArray final : public AList<T> {
  public:
   DynamicArray() : AList<T>() { m_data = new T[m_capacity]; }
-
   ~DynamicArray() override {
     delete[] m_data;
     m_data = nullptr;
@@ -142,7 +141,7 @@ class DynamicArray final : public AList<T> {
     if (this->isEmpty()) throw std::out_of_range("Empty array");
     if (isAlmostEmpty()) shrink();
     if (size() == 1) return std::move(m_data[m_front]);
-    size_t t = getMappedIndex(m_front++);
+    size_t t = (m_front++ + m_capacity) % m_capacity;
     --m_size;
     T result = std::move(m_data[t]);
     return result;
@@ -152,7 +151,7 @@ class DynamicArray final : public AList<T> {
     if (this->isEmpty()) throw std::out_of_range("Empty array");
     if (isAlmostEmpty()) shrink();
     if (size() == 1) return std::move(m_data[m_back]);
-    size_t t = getMappedIndex(m_back--);
+    size_t t = (m_back-- + m_capacity) % m_capacity;
     --m_size;
     T result = std::move(m_data[t]);
     return result;
@@ -229,7 +228,7 @@ class DynamicArray final : public AList<T> {
     T* newData = new T[newCapacity];
     for (size_t i = 0; i < m_size; ++i) {
       size_t const t = getMappedIndex(i);
-      newData[i] = m_data[t];
+      newData[i] = std::move(m_data[t]);
     }
     delete[] m_data;
     m_data = newData;
@@ -246,7 +245,7 @@ class DynamicArray final : public AList<T> {
     T* newData = new T[newCapacity];
     for (size_t i = 0; i < m_size; ++i) {
       size_t const t = getMappedIndex(i);
-      newData[i] = m_data[t];
+      newData[i] = std::move(m_data[t]);
     }
     delete[] m_data;
     m_data = newData;

@@ -24,7 +24,14 @@ void selectionSortTest(datastructures::ASortableList<T>& list,
     list.pushBack(std::sin<double>(i * delta) + 1);
   }
   std::println(" list.size() = {}. Populated again!", list.size());
-
+  // for (auto i = 0; i < static_cast<int>(samples); i++) {
+  //   const auto val = list[i] * 100;
+  //   std::stringstream ss;
+  //   for (auto j = 0; j < static_cast<int>(val); j++) {
+  //     ss << ".";
+  //   }
+  //   std::println("{}", ss.str());
+  // }
   list.template sort<SelectionSort<double>>();
   for (auto i = 0; i < static_cast<int>(samples); i++) {
     const auto val = list.popFront() * 100;
