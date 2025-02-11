@@ -37,8 +37,8 @@ class InsertionSort final : public ASort<T> {
    *
    * @param low inclusive
    * @param high inclusive
-   * @param index index
-   * @return the correct index to put (push) the data. This index corresponds to
+   * @param index index this is the first item to the right of the sorted range we want to find.
+   * @return the correct index to put (push) the data. This returned index corresponds to
    * first item that is bigger than this item.
    */
   size_t binarySearchCorrectIndex(size_t const low, size_t const high,
