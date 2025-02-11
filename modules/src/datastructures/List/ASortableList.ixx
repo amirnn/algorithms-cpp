@@ -12,7 +12,7 @@ template <std::totally_ordered T>
 class ASort;
 }
 
-namespace datastructures {
+export namespace datastructures {
 // using: ()->ISort<T>
 template <std::totally_ordered T>
 class ASortableList : public AList<T> {
