@@ -33,6 +33,30 @@ class DoublyLinkedListQueue final : public AList<T> {
     Node* next = nullptr;
   };
 
+  DoublyLinkedListQueue() = default;
+
+  // move constructor
+  DoublyLinkedListQueue(DoublyLinkedListQueue&& other) noexcept
+      : AList<T>{other},
+        m_size{other.m_size},
+        m_front{other.m_front},
+        m_back{other.m_back} {
+    other.m_size = 0;
+    other.m_front = other.m_back = nullptr;
+  }
+  DoublyLinkedListQueue& operator=(DoublyLinkedListQueue&& other) noexcept {
+    m_size = other.m_size;
+    m_front = other.m_front;
+    m_back = other.m_back;
+    other.m_size = 0;
+    other.m_front = other.m_back = nullptr;
+    return *this;
+  }
+
+  // delete copy constructor and assignment
+  DoublyLinkedListQueue(DoublyLinkedListQueue const& other) = delete;
+  DoublyLinkedListQueue& operator=(DoublyLinkedListQueue const& other) = delete;
+
   ~DoublyLinkedListQueue() override { DoublyLinkedListQueue::clear(); }
 
   // getters

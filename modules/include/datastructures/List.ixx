@@ -7,4 +7,5 @@ export import :List.ASortableList;
 export import :List.DoublyLinkedListQueue;
 export import :List.SortableDoublyLinkedListQueue;
 export import :List.DynamicArray;
+export import :List.SortableDynamicArray;
 

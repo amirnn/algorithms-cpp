@@ -16,7 +16,15 @@ template <std::totally_ordered T>
 class SortableDoublyLinkedListQueue final : public ASortableList<T> {
  public:
   SortableDoublyLinkedListQueue()
-      : ASortableList<T>(), m_list{std::make_unique<DoublyLinkedListQueue<T>>()} {}
+      : ASortableList<T>(),
+        m_list{std::make_unique<DoublyLinkedListQueue<T>>()} {}
+
+  // delete copy constructor and assignment
+  SortableDoublyLinkedListQueue(SortableDoublyLinkedListQueue const& other) =
+      delete;
+  SortableDoublyLinkedListQueue& operator=(
+      SortableDoublyLinkedListQueue const& other) = delete;
+
   [[nodiscard]] size_t size() const noexcept override { return m_list->size(); }
 
   [[nodiscard]] T& getItemAt(int64_t const index) override {

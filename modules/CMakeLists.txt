@@ -28,6 +28,7 @@ target_sources(datastructures-and-algorithms
         src/datastructures/List/ASortableList.ixx
         src/datastructures/ListQueue/SortableDoublyLinkedListQueue.ixx
         src/datastructures/DynamicArray/DynamicArray.ixx
+        src/datastructures/DynamicArray/SortableDynamicArray.ixx
         # algorithms
         include/algorithms/Sort.ixx
         src/algorithms/Sorts/ASort/ASort.ixx
@@ -39,15 +40,26 @@ target_sources(datastructures-and-algorithms
 )
 
 # ListQueueTests
-add_executable(ListQueueTests)
-target_sources(ListQueueTests PRIVATE src/test/ListQueueTests.cpp)
-target_link_libraries(ListQueueTests PRIVATE datastructures-and-algorithms)
+add_executable(ListTests)
+target_sources(ListTests
+        PRIVATE
+        src/test/list-tests.cpp
+        PUBLIC
+        FILE_SET all_modules
+        TYPE CXX_MODULES
+        BASE_DIRS
+        src/test/ListTests
+        FILES
+        src/test/ListTests/ListTests.ixx
+)
+
+target_link_libraries(ListTests PRIVATE datastructures-and-algorithms)
 
 # SortTests
 add_executable(SortTests)
 target_sources(SortTests
         PRIVATE
-        src/test/SortTests.cpp
+        src/test/sort-tests.cpp
         PUBLIC
         FILE_SET all_modules
         TYPE CXX_MODULES

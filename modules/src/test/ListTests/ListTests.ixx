@@ -1,18 +1,50 @@
 // Copyright 2025 by Amir Nourinia
 
-#include <cmath>
-#include <format>
-#include <iostream>
+module;
+#include <print>
 #include <numbers>
 #include <sstream>
+export module ListTests;
 
-import List;
-import Sort;
+import DSA;
 
-int main(int32_t argc, char **argv) {
+export namespace tests {
+
+void dynamicArrayTests() {
   using namespace datastructures;
   using namespace algorithms;
-  ListQueue<double> list;
+  DynamicArray<double> array;
+  for (auto i = 0; i < 100; i++) {
+    array.pushBack(static_cast<double>(i) + 0.5 );
+  }
+  std::println("Array size: {}", array.size());
+  for (auto i = 0; i < 100; i++) {
+    std::println(" list[{}] = {}", i, array[array.size() - i - 1]);
+  }
+  array.clear();
+  std::println(" list.size() = {}, after clear.", array.size());
+
+  constexpr auto pi = std::numbers::pi_v<double>;
+  constexpr double samples = 64.0;
+  constexpr double delta = (2 * pi / samples);
+  for (auto i = 0; i < static_cast<int>(samples); i++) {
+    array.pushBack(std::sin<double>(i * delta) + 1);
+  }
+  std::println(" list.size() = {}. Populated again!", array.size());
+  for (auto i = 0; i < static_cast<int>(samples); i++) {
+    const auto val = array.popBack() * 50;
+    std::stringstream ss;
+    for (auto j = 0; j < static_cast<int>(val); j++) {
+      ss << "*";
+    }
+    std::println("{}", ss.str());
+  }
+}
+
+void listQueueTests() {
+  using namespace datastructures;
+  using namespace algorithms;
+  DoublyLinkedListQueue<double> list;
 
   for (auto i = 0; i < 100; i++) {
     list.pushBack(static_cast<double>(i) + 0.5 );
@@ -20,10 +52,9 @@ int main(int32_t argc, char **argv) {
   for (auto i = 0; i < 10; i++) {
     std::println(" list[{}] = {}", i, list[list.size() - i - 1]);
   }
-  std::cout << '\n';
-  std::cout.flush();
   list.clear();
   std::println(" list.size() = {}, after clear.", list.size());
+
   constexpr auto pi = std::numbers::pi_v<double>;
   constexpr double samples = 64.0;
   constexpr double delta = (2 * pi / samples);
@@ -63,5 +94,5 @@ int main(int32_t argc, char **argv) {
   for (auto i = 0; i < 11; ++i) {
     std::println(" list[{}] = {}", list.size() - i - 1, list[list.size() - i - 1]);
   }
-  return EXIT_SUCCESS;
+}
 }
