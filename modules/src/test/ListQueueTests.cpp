@@ -63,6 +63,5 @@ int main(int32_t argc, char **argv) {
   for (auto i = 0; i < 11; ++i) {
     std::println(" list[{}] = {}", list.size() - i - 1, list[list.size() - i - 1]);
   }
-
   return EXIT_SUCCESS;
 }

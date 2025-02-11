@@ -1,12 +1,12 @@
 // Copyright 2025 by Amir Nourinia
 
-export module Sort;
+export module DSA:Sort;
 
-export import :ASort;
-export import :HeapSort;
-export import :InsertionSort;
-export import :MergeSort;
-export import :QuickSort;
-export import :SelectionSort;
+export import :Sort.ASort;
+export import :Sort.HeapSort;
+export import :Sort.InsertionSort;
+export import :Sort.MergeSort;
+export import :Sort.QuickSort;
+export import :Sort.SelectionSort;
 
 

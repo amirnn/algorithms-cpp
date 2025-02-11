@@ -2,16 +2,8 @@
 
 module;
 #include <sys/types.h>
-#include <concepts>
-#include <functional>
 
-// forward declaration
-namespace algorithms {
-template <std::totally_ordered T>
-class ASort;
-}
-
-export module List:IList;
+export module DSA:List.AList;
 
 export namespace datastructures {
 template <typename T>
@@ -20,19 +12,23 @@ class AList {
   virtual ~AList() = default;
 
   // getters
-  [[nodiscard]] virtual int64_t size() const noexcept = 0;
+  [[nodiscard]] virtual size_t size() const noexcept = 0;
 
   [[nodiscard]] bool isEmpty() const noexcept { return size() == 0; }
 
-  [[nodiscard]] virtual T& operator[](int64_t index) = 0;
+ protected:
+  [[nodiscard]] virtual T& getItemAt(int64_t index) = 0;
+
+ public:
+  [[nodiscard]] T& operator[](int64_t const index) { return getItemAt(index); }
 
   [[nodiscard]] T const& operator[](int64_t const index) const {
     return operator[](index);
   }
 
-  [[nodiscard]] T& get(int64_t const index) { return operator[](index); }
+  [[nodiscard]] T& at(int64_t const index) { return operator[](index); }
 
-  [[nodiscard]] T const& get(int64_t const index) const { return get(index); }
+  [[nodiscard]] T const& at(int64_t const index) const { return at(index); }
 
   T& getHead() { return operator[](0); }
 
@@ -69,15 +65,6 @@ class AList {
    * @param value
    */
   virtual void set(int64_t index, T&& value) = 0;
-};
-
-// using: ()->ISort<T>
-template <std::totally_ordered T>
-class ASortableList : AList<T> {
- public:
-  ~ASortableList() override = default;
-
-  void sort(std::function<algorithms::ASort<T>()> const& algorithm);
 };
 
 }  // namespace datastructures

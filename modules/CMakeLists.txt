@@ -7,31 +7,26 @@ add_library(datastructures-and-algorithms STATIC)
 # also interesting, https://www.kitware.com/import-std-in-cmake-3-30/
 target_sources(datastructures-and-algorithms
         PRIVATE
-        #datastructures
-        src/datastructures/List/AList.cpp
-        # src/datastructures/ListQueue/ListQueue.cpp
-        src/datastructures/DynamicArray/DynamicArray.cpp
-        #algorithms
-        src/algorithms/Sorts/ASort/ASort.cpp
-        src/algorithms/Sorts/HeapSort/HeapSort.cpp
-        src/algorithms/Sorts/InsertionSort/InsertionSort.cpp
-        src/algorithms/Sorts/MergeSort/MergeSort.cpp
-        src/algorithms/Sorts/QuickSort/QuickSort.cpp
-        src/algorithms/Sorts/SelectionSort/SelectionSort.cpp
+#        implementation units *.cpp
+#        #datastructures
+#        #algorithms
         PUBLIC
         FILE_SET all_modules
         TYPE CXX_MODULES
         BASE_DIRS
-        include/datastructures
-        include/algorithms
+        include/
         # partitions
         src/datastructures
         src/algorithms
         FILES
+        # main interface
+        include/DSA.ixx
         # data structures
         include/datastructures/List.ixx
         src/datastructures/List/AList.ixx
-        src/datastructures/ListQueue/ListQueue.ixx
+        src/datastructures/ListQueue/DoublyLinkedListQueue.ixx
+        src/datastructures/List/ASortableList.ixx
+        src/datastructures/ListQueue/SortableDoublyLinkedListQueue.ixx
         src/datastructures/DynamicArray/DynamicArray.ixx
         # algorithms
         include/algorithms/Sort.ixx
@@ -43,11 +38,12 @@ target_sources(datastructures-and-algorithms
         src/algorithms/Sorts/SelectionSort/SelectionSort.ixx
 )
 
-add_executable(main)
-target_sources(main
-        PRIVATE
-        src/test/main.cpp
-)
+# ListQueueTests
+add_executable(ListQueueTests)
+target_sources(ListQueueTests PRIVATE src/test/ListQueueTests.cpp)
+target_link_libraries(ListQueueTests PRIVATE datastructures-and-algorithms)
 
-target_link_libraries(main PRIVATE datastructures-and-algorithms)
-
+# SortTests
+add_executable(SortTests)
+target_sources(SortTests PRIVATE src/test/SortTests.cpp)
+target_link_libraries(SortTests PRIVATE datastructures-and-algorithms)

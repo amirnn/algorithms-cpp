@@ -1,8 +1,10 @@
 // Copyright 2025 by Amir Nourinia
 
-export module List;
+export module DSA:List;
 
-export import :IList;
-export import :ListQueue;
-export import :DynamicArray;
+export import :List.AList;
+export import :List.ASortableList;
+export import :List.DoublyLinkedListQueue;
+export import :List.SortableDoublyLinkedListQueue;
+export import :List.DynamicArray;
 
