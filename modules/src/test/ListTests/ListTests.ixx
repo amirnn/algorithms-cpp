@@ -4,6 +4,7 @@ module;
 #include <print>
 #include <numbers>
 #include <sstream>
+#include <cmath>
 export module ListTests;
 
 import DSA;
@@ -28,7 +29,7 @@ void dynamicArrayTests() {
   constexpr double samples = 64.0;
   constexpr double delta = (2 * pi / samples);
   for (auto i = 0; i < static_cast<int>(samples); i++) {
-    array.pushBack(std::sin<double>(i * delta) + 1);
+    array.pushBack(std::sin(i * delta) + 1);
   }
   std::println(" list.size() = {}. Populated again!", array.size());
   for (auto i = 0; i < static_cast<int>(samples); i++) {
@@ -59,7 +60,7 @@ void listQueueTests() {
   constexpr double samples = 64.0;
   constexpr double delta = (2 * pi / samples);
   for (auto i = 0; i < static_cast<int>(samples); i++) {
-    list.pushBack(std::sin<double>(i * delta) + 1);
+    list.pushBack(std::sin(i * delta) + 1);
   }
   std::println(" list.size() = {}. Populated again!", list.size());
   for (auto i = 0; i < static_cast<int>(samples); i++) {
@@ -72,7 +73,7 @@ void listQueueTests() {
   }
 
   for (auto i = 0; i < static_cast<int>(samples); i++) {
-    list.pushBack(std::sin<double>(i * delta) + 1);
+    list.pushBack(std::sin(i * delta) + 1);
   }
   std::println(" list.size() = {}. Populated again!", list.size());
   for (auto i = 0; i < static_cast<int>(samples); i++) {

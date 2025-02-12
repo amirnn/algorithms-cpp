@@ -21,7 +21,7 @@ void selectionSortTest(datastructures::ASortableList<T>& list,
   const double delta = (2 * pi / samples);
 
   for (auto i = 0; i < static_cast<int>(samples); i++) {
-    list.pushBack(std::sin<double>(i * delta) + 1);
+    list.pushBack(std::sin(i * delta) + 1);
   }
   std::println(" list.size() = {}. Populated again!", list.size());
   // for (auto i = 0; i < static_cast<int>(samples); i++) {
@@ -55,7 +55,7 @@ void insertionSortTest(datastructures::ASortableList<T>& list,
 
   list.clear();
   for (auto i = 0; i < static_cast<int>(samples); i++) {
-    list.pushBack(std::sin<double>(i * delta) + 1);
+    list.pushBack(std::sin(i * delta) + 1);
   }
   std::println(" list.size() = {}. Populated again!", list.size());
   list.template sort<InsertionSort<double>>();
