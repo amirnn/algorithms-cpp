@@ -1,11 +1,11 @@
 # Copyright 2025 by Amir Nourinia
 # src
 
-add_library(datastructures-and-algorithms STATIC)
+add_library(dsa-cpp STATIC)
 # thanks to https://gitlab.kitware.com/cmake/cmake/-/issues/25493
 # and https://www.kitware.com/import-cmake-the-experiment-is-over/
 # also interesting, https://www.kitware.com/import-std-in-cmake-3-30/
-target_sources(datastructures-and-algorithms
+target_sources(dsa-cpp
         PRIVATE
         #        implementation units *.cpp
         #        #datastructures
@@ -67,7 +67,7 @@ target_sources(ListTests
         src/test/ListTests/ListTests.ixx
 )
 
-target_link_libraries(ListTests PRIVATE datastructures-and-algorithms)
+target_link_libraries(ListTests PRIVATE dsa-cpp)
 
 # SortTests
 add_executable(SortTests)
@@ -82,4 +82,4 @@ target_sources(SortTests
         FILES
         src/test/SortTests/SortTests.ixx
 )
-target_link_libraries(SortTests PRIVATE datastructures-and-algorithms)
+target_link_libraries(SortTests PRIVATE dsa-cpp)
