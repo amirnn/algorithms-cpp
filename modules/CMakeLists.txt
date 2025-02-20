@@ -10,6 +10,11 @@ target_sources(datastructures-and-algorithms
         #        implementation units *.cpp
         #        #datastructures
         #        #algorithms
+        # math
+
+        # utils
+        src/utils/io/IO.cpp
+
         PUBLIC
         FILE_SET all_modules
         TYPE CXX_MODULES
@@ -18,6 +23,8 @@ target_sources(datastructures-and-algorithms
         # partitions
         src/datastructures
         src/algorithms
+        src/math
+        src/utils
         FILES
         # main interface
         include/DSA.ixx
@@ -37,6 +44,13 @@ target_sources(datastructures-and-algorithms
         src/algorithms/Sorts/MergeSort/MergeSort.ixx
         src/algorithms/Sorts/QuickSort/QuickSort.ixx
         src/algorithms/Sorts/SelectionSort/SelectionSort.ixx
+        # math
+        include/math/Math.ixx
+        src/math/la/Matrix.ixx
+        src/math/random/Random.ixx
+        # utils
+        include/utils/Utils.ixx
+        src/utils/io/IO.ixx
 )
 
 # ListQueueTests

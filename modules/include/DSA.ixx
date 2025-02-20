@@ -9,3 +9,9 @@ export import :List;
 
 // algorithms
 export import :Sort;
+
+// math
+export import :Math;
+
+// utils
+export import :Utils;
