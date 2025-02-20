@@ -8,4 +8,5 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+include(${CMAKE_CURRENT_SOURCE_DIR}/libs/libs.cmake)
 add_subdirectory(modules)
