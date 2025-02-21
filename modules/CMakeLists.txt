@@ -53,6 +53,30 @@ target_sources(dsa-cpp
         src/utils/io/IO.ixx
 )
 
+target_include_directories(
+        dsa-cpp
+        PUBLIC
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/modules/include>"
+        "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
+)
+
+# look at: https://cmake.org/cmake/help/latest/guide/importing-exporting/index.html
+install(TARGETS dsa-cpp
+        EXPORT dsa-cpp-targets
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
+
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/modules/include" DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+install(EXPORT dsa-cpp-targets
+        FILE DSA-CPP-Targets.cmake
+        NAMESPACE DSA::
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/DSA
+)
+
 # ListQueueTests
 add_executable(ListTests)
 target_sources(ListTests

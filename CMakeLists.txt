@@ -8,5 +8,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# thanks to: https://cmake.org/cmake/help/latest/guide/importing-exporting/index.html
+# make cache variables for install destinations
+include(GNUInstallDirs)
+
+include(CMakePackageConfigHelpers)
+
 include(${CMAKE_CURRENT_SOURCE_DIR}/libs/libs.cmake)
 add_subdirectory(modules)
