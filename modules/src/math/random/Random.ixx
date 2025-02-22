@@ -45,6 +45,6 @@ template <std::floating_point T>
 
 template <std::integral T>
 [[nodiscard]] T uniform(T a, T b) {
-  return static_cast<T>(uniform_dist<long double>(a, b));
+  return static_cast<T>(uniform<long double>(a, b));
 }
 }  // namespace random

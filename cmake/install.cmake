@@ -39,7 +39,8 @@ install(EXPORT ${DSA_EXPORT_TARGET_NAME}
 
 # configure file
 include(CMakePackageConfigHelpers)
-configure_package_config_file("${CMAKE_SOURCE_DIR}/cmake/${ARTIFACT_NAME}-config.cmake.in"
+configure_package_config_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/../cmake/${ARTIFACT_NAME}-config.cmake.in"
         "${CMAKE_CURRENT_BINARY_DIR}/${ARTIFACT_NAME}-config.cmake"
         INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/dsa
 )

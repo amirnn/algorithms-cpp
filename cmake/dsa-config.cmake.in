@@ -1,5 +1,5 @@
 @PACKAGE_INIT@
 
-include("${CMAKE_CURRENT_LIST_DIR}/DSA-Targets.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/dsa-targets.cmake")
 
 check_required_components(dsa-cpp)

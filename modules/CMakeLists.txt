@@ -54,7 +54,7 @@ target_sources(${ARTIFACT_NAME}
         src/utils/io/IO.ixx
 )
 
-include(${CMAKE_SOURCE_DIR}/cmake/install.cmake)
-include(${CMAKE_SOURCE_DIR}/cmake/export.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/install.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/export.cmake)
 
 add_subdirectory(test)
