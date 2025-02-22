@@ -3,7 +3,7 @@
 module;
 #include <string>
 #include <fstream>
-module DSA:Utils.IO;
+module DSA;
 
 namespace utils::io {
 
