@@ -9,11 +9,10 @@ add_library(${ARTIFACT_NAME} STATIC)
 # also interesting, https://www.kitware.com/import-std-in-cmake-3-30/
 target_sources(${ARTIFACT_NAME}
         PRIVATE
-        #        implementation units *.cpp
-        #        #datastructures
-        #        #algorithms
+        # implementation units *.cpp
+        #datastructures
+        #algorithms
         # math
-
         # utils
         src/utils/io/IO.cpp
         PUBLIC
