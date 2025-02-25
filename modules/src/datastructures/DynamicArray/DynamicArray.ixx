@@ -2,6 +2,7 @@
 
 module;
 #include <algorithm>
+#include <cstddef>
 #include <cstdint>
 #include <stdexcept>
 export module DSA:List.DynamicArray;
@@ -255,7 +256,7 @@ class DynamicArray final : public AList<T> {
   }
 
   void exchange(int64_t const source, int64_t const target) {
-    if (source < 0 || target < 0 || source >= m_size || target >= m_size)
+    if (source < 0 || target < 0 || static_cast<size_t>(source) >= m_size || static_cast<size_t>(target) >= m_size)
       throw std::out_of_range("index out of range");
     T temp = std::move(m_data[source]);
     m_data[source] = std::move(m_data[target]);

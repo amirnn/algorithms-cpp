@@ -14,7 +14,7 @@ target_sources(ListTests
         ListTests/ListTests.ixx
 )
 
-target_link_libraries(ListTests PRIVATE dsa-cpp)
+target_link_libraries(ListTests PRIVATE dsa)
 
 # SortTests
 add_executable(SortTests)
@@ -29,4 +29,4 @@ target_sources(SortTests
         FILES
         SortTests/SortTests.ixx
 )
-target_link_libraries(SortTests PRIVATE dsa-cpp)
+target_link_libraries(SortTests PRIVATE dsa)

@@ -7,7 +7,7 @@ module;
 #include <random>
 export module DSA:Math.Random;
 
-export namespace random {
+export namespace dsa::random {
 
 /**
 * @param p probability to be true
