@@ -1,0 +1,59 @@
+{
+    "version": 7,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 31,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "default",
+            "displayName": "Default Config",
+            "description": "Default build using Ninja Multi-Config generator",
+            "generator": "Ninja Multi-Config",
+            "binaryDir": "${sourceDir}/build/",
+            "hidden": true
+        },
+        {
+            "name": "windows-only",
+            "inherits": "default",
+            "displayName": "Windows-only configuration",
+            "description": "This build is only available on Windows",
+            "condition": {
+              "type": "equals",
+              "lhs": "${hostSystemName}",
+              "rhs": "Windows"
+            }
+        },
+        {
+            "name": "macOS-GCC",
+            "inherits": "default",
+            "displayName": "macOS-GCC",
+            "description": "Only available on macOS uses GCC from Homebrew",
+            "condition": {
+              "type": "equals",
+              "lhs": "${hostSystemName}",
+              "rhs": "Darwin"
+            },
+            "environment": {
+                "CC": "/opt/homebrew/bin/gcc-14",
+                "CXX": "/opt/homebrew/bin/g++-14"
+            }
+        },
+        {
+            "name": "macOS-LLVM",
+            "inherits": "default",
+            "displayName": "macOS-LLVM",
+            "description": "Only available on macOS uses LLVM from Homebrew",
+            "condition": {
+              "type": "equals",
+              "lhs": "${hostSystemName}",
+              "rhs": "Darwin"
+            },
+            "environment": {
+                "CC": "/opt/homebrew/opt/llvm/bin/clang",
+                "CXX": "/opt/homebrew/opt/llvm/bin/clang++"
+            }
+        }
+    ]
+}
