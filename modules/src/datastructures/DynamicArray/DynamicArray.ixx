@@ -207,7 +207,11 @@ class DynamicArray final : public AList<T> {
    * @return
    */
   [[nodiscard]] size_t getMappedIndex(int64_t const index) const noexcept {
-    return (index + m_front + m_capacity) % m_capacity;
+    int64_t const indexMod = index % bufferSize;
+    int64_t const headMod = head % bufferSize;
+    int64_t const secondMod = (headMod + bufferSize) % bufferSize;
+    int64_t const actualIndex = (indexMod + secondMod) % bufferSize;
+    return actualIndex;
   }
 
   void boundsCheck(int64_t const index) const {
