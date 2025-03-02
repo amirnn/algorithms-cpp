@@ -42,6 +42,7 @@ target_sources(${ARTIFACT_NAME}
         src/algorithms/Sorts/ASort/ASort.ixx
         src/algorithms/Sorts/HeapSort/HeapSort.ixx
         src/algorithms/Sorts/InsertionSort/InsertionSort.ixx
+        src/algorithms/Sorts/ShellSort/ShellSort.ixx
         src/algorithms/Sorts/MergeSort/MergeSort.ixx
         src/algorithms/Sorts/QuickSort/QuickSort.ixx
         src/algorithms/Sorts/SelectionSort/SelectionSort.ixx
