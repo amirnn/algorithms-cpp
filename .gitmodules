@@ -1,3 +1,6 @@
 [submodule "libs/pcg-cpp"]
 	path = libs/pcg-cpp
 	url = https://github.com/imneme/pcg-cpp.git
+[submodule "libs/catch2"]
+	path = libs/catch2
+	url = https://github.com/catchorg/Catch2.git
