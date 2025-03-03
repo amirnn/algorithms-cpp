@@ -205,6 +205,15 @@ class DynamicArray final : public AList<T> {
     m_data = new T[m_capacity];
   }
 
+  void exchange(size_t const source, size_t const target) override {
+    if (source < 0 || target < 0 || static_cast<size_t>(source) >= m_size ||
+        static_cast<size_t>(target) >= m_size)
+      throw std::out_of_range("index out of range");
+    T temp = std::move(this->at(source));
+    set(source, std::move(this->at(target)));
+    set(target, std::move(temp));
+  }
+
  private:
   /**
    *
@@ -260,15 +269,6 @@ class DynamicArray final : public AList<T> {
     m_capacity = newCapacity;
     m_head = 0;
     m_tail = m_size - 1;
-  }
-
-  void exchange(int64_t const source, int64_t const target) {
-    if (source < 0 || target < 0 || static_cast<size_t>(source) >= m_size ||
-        static_cast<size_t>(target) >= m_size)
-      throw std::out_of_range("index out of range");
-    T temp = std::move(this->at(source));
-    set(source, std::move(this->at(target)));
-    set(target, std::move(temp));
   }
 
  private:

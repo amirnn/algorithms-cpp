@@ -27,7 +27,7 @@ class ASortableList : public AList<T> {
   }
 
   [[nodiscard]] bool isSorted() const noexcept {
-    for (size_t i = 0; i < this->size(); ++i) {
+    for (size_t i = 0; i < this->size() - 1; ++i) {
       if (this->at(i) > this->at(i + 1)) {
         return false;
       }

@@ -4,6 +4,7 @@ module;
 #include <cstdint>
 #include <cstddef>
 export module DSA:List.AList;
+import :Math.Random;
 
 export namespace datastructures {
 template <typename T>
@@ -48,6 +49,17 @@ class AList {
 
   // setters
   virtual void clear() noexcept = 0;
+
+  // implements knuth's linear shuffle
+  void shuffle() noexcept {
+    if (size() <= 1) return;
+    for (int i = 1; i < size(); ++i) {
+      int64_t const target = dsa::random::uniform(0, i);
+      exchange(i, target);
+    }
+  }
+
+  virtual void exchange(size_t source, size_t target) = 0;
 
   virtual void pushFront(T&& element) noexcept = 0;
 

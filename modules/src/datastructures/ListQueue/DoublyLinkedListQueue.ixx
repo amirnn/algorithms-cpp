@@ -13,7 +13,7 @@ class DoublyLinkedListQueue final : public AList<T> {
  public:
   class Node {
    public:
-    explicit Node(T&& data) : data{data} {}
+    explicit Node(T&& data) : data{std::forward<T>(data)} {}
 
     // getters
     T& getData() noexcept { return data; }
@@ -234,6 +234,18 @@ class DoublyLinkedListQueue final : public AList<T> {
     while (not this->isEmpty()) {
       static_cast<void>(popFront());
     }
+  }
+
+  void exchange(size_t const source, size_t const target) override {
+    if (source >= size() || target >= size()) {
+      throw std::out_of_range("Source or destination out of range.");
+    }
+    Node* sourceNode = getNodeAt(source);
+    Node* targetNode = getNodeAt(target);
+    T sourceData{std::move(sourceNode->getData())};
+    T targetData{std::move(targetNode->getData())};
+    sourceNode->setData(std::move(targetData));
+    targetNode->setData(std::move(sourceData));
   }
 
  private:

@@ -18,11 +18,11 @@ class MergeSort final : public ASort<T> {
       throw std::invalid_argument("Empty data");
     // mandatory
     this->m_data = data;
+    auto& rdata = *data;
     // O(n)
-    if (data->isSorted()) {
+    if (rdata.isSorted()) {
       return;
     }
-    auto& rdata = *data;
   }
 
  private:

@@ -12,17 +12,15 @@ template <std::totally_ordered T>
 class SelectionSort final : public ASort<T> {
  public:
   void sort(typename ASort<T>::ASortableList* data) override {
-    if (data == nullptr)
-      throw std::invalid_argument("Null pointer");
-    if (data->isEmpty())
-      throw std::invalid_argument("Empty data");
+    if (data == nullptr) throw std::invalid_argument("Null pointer");
+    if (data->isEmpty()) throw std::invalid_argument("Empty data");
     // mandatory
     this->m_data = data;
+    auto& rdata = *data;
     // O(n)
-    if (data->isSorted()) {
+    if (rdata.isSorted()) {
       return;
     }
-    auto& rdata = *data;
     size_t const size = rdata.size();
     for (size_t i = 0; i < size - 1; ++i) {
       size_t minIndex = i;
@@ -31,8 +29,7 @@ class SelectionSort final : public ASort<T> {
           minIndex = j;
         }
       }
-      if (minIndex != i)
-        this->exchange(i, minIndex);
+      if (minIndex != i) rdata.exchange(i, minIndex);
     }
   }
 };

@@ -47,7 +47,13 @@ class SortableDoublyLinkedListQueue final : public ASortableList<T> {
   [[nodiscard]] T popAt(size_t const index) override {
     return std::forward<T>(m_list->popAt(index));
   }
+
+  void exchange(size_t source, size_t target) override {
+    m_list->exchange(source, target);
+  }
+
   void clear() noexcept override { m_list->clear(); }
+
   void pushFront(T&& element) noexcept override {
     m_list->pushFront(std::forward<T>(element));
   }

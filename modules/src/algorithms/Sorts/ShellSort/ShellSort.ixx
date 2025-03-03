@@ -13,16 +13,17 @@ class ShellSort final : public ASort<T> {
     if (data->isEmpty()) throw std::invalid_argument("Empty data");
     // mandatory
     this->m_data = data;
+    auto& rdata = *data;
     // O(n)
-    if (data->isSorted()) {
+    if (rdata.isSorted()) {
       return;
     }
-    size_t const size = this->m_data->size();
+    size_t const size = rdata.size();
     size_t h = generateMaximumElementUsingKnuthMethod(size);  // log(N)
     while (h >= 1) {
       for (size_t i = h; i < size; ++i) {
-        for (size_t j = i; j >= h && (data->at(j) < data->at(j - h)); j -= h) {
-          this->exchange(j, j - h);
+        for (size_t j = i; j >= h && (rdata.at(j) < rdata.at(j - h)); j -= h) {
+          rdata.exchange(j, j - h);
         }
       }
       h = h / 3;

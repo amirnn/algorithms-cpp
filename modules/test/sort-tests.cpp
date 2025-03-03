@@ -34,6 +34,17 @@ TEST_CASE("Insertion-Sort using DynamicArray", "insertion-sort-dynamic-array") {
   REQUIRE(array.isSorted());
 }
 
+TEST_CASE("Shell-Sort using Deque", "shell-sort-deque") {
+  datastructures::SortableDoublyLinkedListQueue<double> queue;
+  tests::shellSortTest(queue, 2048, false);
+  REQUIRE(queue.isSorted());
+}
+
+TEST_CASE("Shell-Sort using DynamicArray", "shell-sort-dynamic-array") {
+  datastructures::SortableDynamicArray<double> array;
+  tests::shellSortTest(array, 8192, false);
+  REQUIRE(array.isSorted());
+}
 
 // int main ([[maybe_unused]] int argc,[[maybe_unused]] char** argv) {
 //

@@ -17,17 +17,16 @@ class InsertionSort final : public ASort<T> {
       throw std::invalid_argument("Empty data");
     // mandatory
     this->m_data = data;
-    // O(n)
-    if (data->isSorted()) {
+    auto& rdata = *data;
+    if (rdata.isSorted()) {
       return;
     }
-    auto& rdata = *data;
     size_t const size = rdata.size();
     for (size_t i = 1; i < size; ++i) {
       if (rdata[i] < rdata[i - 1]) {
         size_t const correctIndex = binarySearchCorrectIndex(0, i - 1, i);
         for (size_t j = i; j > correctIndex; --j) {
-          this->exchange(j, j - 1);
+          rdata.exchange(j, j - 1);
         }
       }
     }

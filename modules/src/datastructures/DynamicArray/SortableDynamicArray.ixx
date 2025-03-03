@@ -25,14 +25,14 @@ class SortableDynamicArray final : public ASortableList<T> {
     return m_array->at(index);
   }
 
-  [[nodiscard]] T const& getItemAt(size_t index) const override {
+  [[nodiscard]] T const& getItemAt(size_t const index) const override {
     return m_array->at(index);
   }
 
  public:
   [[nodiscard]] T popFront() override { return m_array->popFront(); }
   [[nodiscard]] T popBack() override { return m_array->popBack(); }
-  [[nodiscard]] T popAt(size_t index) override {
+  [[nodiscard]] T popAt(size_t const index) override {
     return m_array->popAt(index);
   }
   void clear() noexcept override { m_array->clear(); }
@@ -43,13 +43,15 @@ class SortableDynamicArray final : public ASortableList<T> {
     m_array->pushBack(std::forward<T>(element));
   }
 
-
- public:
-  void pushAt(size_t index, T&& item) override {
+  void pushAt(size_t const index, T&& item) override {
     m_array->pushAt(index, std::forward<T>(item));
   }
-  void set(size_t index, T&& value) override {
+  void set(size_t const index, T&& value) override {
     m_array->set(index, std::forward<T>(value));
+  }
+
+  void exchange(size_t const source, size_t const target) override {
+    m_array->exchange(source, target);
   }
 
  private:
