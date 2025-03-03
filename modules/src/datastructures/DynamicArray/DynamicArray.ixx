@@ -16,15 +16,15 @@ class DynamicArray final : public AList<T> {
   ~DynamicArray() override {
     delete[] m_data;
     m_data = nullptr;
-    m_capacity = m_size = m_front = m_back = 0;
+    m_capacity = m_size = m_head = m_tail = 0;
   }
 
   DynamicArray(const DynamicArray& other)
       : AList<T>(other),
         m_size{other.m_size},
         m_capacity{other.m_capacity},
-        m_front{other.m_front},
-        m_back{other.m_back} {
+        m_head{other.m_head},
+        m_tail{other.m_tail} {
     m_data = new T[m_capacity];
     std::copy(other.m_data, other.m_data + m_capacity, m_data);
   }
@@ -34,8 +34,8 @@ class DynamicArray final : public AList<T> {
     }
     m_size = other.m_size;
     m_capacity = other.m_capacity;
-    m_front = other.m_front;
-    m_back = other.m_back;
+    m_head = other.m_head;
+    m_tail = other.m_tail;
     m_data = new T[m_capacity];
     std::copy(other.m_data, other.m_data + m_capacity, m_data);
     return *this;
@@ -45,14 +45,14 @@ class DynamicArray final : public AList<T> {
       : AList<T>(),
         m_size{other.m_size},
         m_capacity{other.m_capacity},
-        m_front{other.m_front},
-        m_back{other.m_back} {
+        m_head{other.m_head},
+        m_tail{other.m_tail} {
     m_data = other.m_data;
     other.m_data = nullptr;
     other.m_size = 0;
     other.m_capacity = 0;
-    other.m_front = 0;
-    other.m_back = 0;
+    other.m_head = 0;
+    other.m_tail = 0;
     other.m_data = nullptr;
   }
   DynamicArray& operator=(DynamicArray&& other) noexcept {
@@ -61,21 +61,21 @@ class DynamicArray final : public AList<T> {
     }
     m_size = other.m_size;
     m_capacity = other.m_capacity;
-    m_front = other.m_front;
-    m_back = other.m_back;
+    m_head = other.m_head;
+    m_tail = other.m_tail;
     m_data = other.m_data;
     other.m_data = nullptr;
     other.m_size = 0;
     other.m_capacity = 0;
-    other.m_front = 0;
-    other.m_back = 0;
+    other.m_head = 0;
+    other.m_tail = 0;
     other.m_data = nullptr;
     return *this;
   }
 
   [[nodiscard]] size_t size() const noexcept override { return m_size; }
 
-  [[nodiscard]] T& getItemAt(int64_t const index) override {
+  [[nodiscard]] T& getItemAt(size_t const index) override {
     boundsCheck(index);
     size_t t = getMappedIndex(index);
     return m_data[t];
@@ -88,7 +88,7 @@ class DynamicArray final : public AList<T> {
       ++m_size;
       return;
     }
-    --m_front;
+    --m_head;
     size_t t = getMappedIndex(0);
     m_data[t] = std::forward<T>(element);
     ++m_size;
@@ -103,10 +103,10 @@ class DynamicArray final : public AList<T> {
     }
     size_t t = getMappedIndex(++m_size - 1);
     m_data[t] = std::forward<T>(element);
-    ++m_back;
+    ++m_tail;
   }
 
-  void pushAt(int64_t const index, T&& item) override {
+  void pushAt(size_t const index, T&& item) override {
     if (this->isEmpty()) {
       if (index != 0) throw std::out_of_range("invalid index, array is empty");
       pushBack(std::move(item));
@@ -143,7 +143,7 @@ class DynamicArray final : public AList<T> {
       return result;
     }
     T result = std::move(this->at(0));
-    ++m_front;
+    ++m_head;
     --m_size;
     return result;
   }
@@ -157,12 +157,12 @@ class DynamicArray final : public AList<T> {
       return result;
     }
     T result = std::move(this->at(size() - 1));
-    --m_back;
+    --m_tail;
     --m_size;
     return result;
   }
 
-  [[nodiscard]] T popAt(int64_t const index) override {
+  [[nodiscard]] T popAt(size_t const index) override {
     boundsCheck(index);
     // closer to head
     if (index <= m_size / 2) {
@@ -180,10 +180,9 @@ class DynamicArray final : public AList<T> {
     }
   }
 
-  void set(int64_t const index, T&& value) override {
-    if (index == 0 && m_size == 0) {
-      m_data[0] = std::forward<T>(value);
-      m_size = 1;
+  void set(size_t const index, T&& value) override {
+    if (size() == 0 && index == 0) {
+      m_data[getMappedIndex(0)] = std::forward<T>(value);
       return;
     }
     boundsCheck(index);
@@ -194,8 +193,8 @@ class DynamicArray final : public AList<T> {
     delete[] m_data;
     m_size = 0;
     m_capacity = 2;
-    m_front = 0;
-    m_back = 0;
+    m_head = 0;
+    m_tail = 0;
     m_data = new T[m_capacity];
   }
 
@@ -207,21 +206,21 @@ class DynamicArray final : public AList<T> {
    */
   [[nodiscard]] size_t getMappedIndex(int64_t const index) const noexcept {
     int64_t const indexMod = index;
-    int64_t const headMod = m_front % m_capacity;
+    int64_t const headMod = m_head % m_capacity;
     int64_t const secondMod = (headMod + m_capacity) % m_capacity;
     int64_t const actualIndex = (indexMod + secondMod) % m_capacity;
     return actualIndex;
   }
 
-  void boundsCheck(int64_t const index) const {
-    if (index < 0 || index >= m_size)
+  void boundsCheck(size_t const index) const {
+    if (index >= m_size)
       throw std::out_of_range("index out of range");
   }
 
   [[nodiscard]] bool isFull() const noexcept { return m_size == m_capacity; }
 
   [[nodiscard]] bool isAlmostEmpty() const noexcept {
-    return m_size <= (m_capacity / s_shrinkFactor);
+    return m_size <= (m_capacity / s_shrinkConditionRatio);
   }
 
   /**
@@ -236,15 +235,15 @@ class DynamicArray final : public AList<T> {
     delete[] m_data;
     m_data = newData;
     m_capacity = newCapacity;
-    m_front = 0;
-    m_back = m_size - 1;
+    m_head = 0;
+    m_tail = m_size - 1;
   }
 
   /**
    * called only when buffer is less than quarter full
    */
   void shrink() noexcept {
-    size_t const newCapacity = m_capacity / s_expansionFactor;
+    size_t const newCapacity = m_capacity / s_shrinkFactor;
     T* newData = new T[newCapacity];
     for (size_t i = 0; i < m_size; ++i) {
       newData[i] = std::move(this->at(i));
@@ -252,8 +251,8 @@ class DynamicArray final : public AList<T> {
     delete[] m_data;
     m_data = newData;
     m_capacity = newCapacity;
-    m_front = 0;
-    m_back = m_size - 1;
+    m_head = 0;
+    m_tail = m_size - 1;
   }
 
   void exchange(int64_t const source, int64_t const target) {
@@ -266,12 +265,13 @@ class DynamicArray final : public AList<T> {
   }
 
  private:
-  size_t m_size = 0;
-  size_t m_capacity = 2;
-  int64_t m_front = 0;
-  int64_t m_back = 0;
+  size_t m_size = 0l;
+  size_t m_capacity = 2ul;
+  int64_t m_head = 0l;
+  int64_t m_tail = 0l;
   T* m_data = nullptr;
-  uint32_t const s_expansionFactor = 2;
-  uint32_t const s_shrinkFactor = 4;
+  uint32_t const s_expansionFactor = 2u;
+  uint32_t const s_shrinkFactor = 2u;
+  uint32_t const s_shrinkConditionRatio = 4u;
 };
 }  // namespace datastructures

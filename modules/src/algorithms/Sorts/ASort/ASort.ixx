@@ -18,7 +18,7 @@ class ASort {
   [[nodiscard]] bool isSorted() const noexcept {
     auto& data = *m_data;
     if (data.size() == 1) return true;
-    for (int64_t i = 0; i < data.size() - 1; ++i) {
+    for (size_t i = 0; i < data.size() - 1; ++i) {
       if (data[i] > data[i + 1]) {
         return false;
       }

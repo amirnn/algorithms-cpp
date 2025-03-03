@@ -22,9 +22,9 @@ class DoublyLinkedListQueue final : public AList<T> {
     Node* getPrev() const noexcept { return prev; }
 
     // setters
-    void setData(T&& data) noexcept { this->data = data; }
-    void setNext(Node* next) noexcept { this->next = next; }
-    void setPrev(Node* prev) noexcept { this->prev = prev; }
+    void setData(T&& newData) noexcept { this->data = newData; }
+    void setNext(Node* nextNode) noexcept { this->next = nextNode; }
+    void setPrev(Node* prevNode) noexcept { this->prev = prevNode; }
 
     // friend class ListQueue<T>;
    private:
@@ -65,18 +65,18 @@ class DoublyLinkedListQueue final : public AList<T> {
   [[nodiscard]] size_t size() const noexcept override { return m_size; }
 
   // Complexity: O(n)
-  [[nodiscard]] T& getItemAt(int64_t index) override {
+  [[nodiscard]] T& getItemAt(size_t const index) override {
     Node* node = getNodeAt(index);
     return node->getData();
   }
 
  private:
   // Complexity: O(n)
-  [[nodiscard]] Node* getNodeAt(int64_t index) {
+  [[nodiscard]] Node* getNodeAt(size_t const index) {
     if (this->isEmpty()) {
       throw std::out_of_range("ListQueue is empty.");
     }
-    if (index < 0 || index >= size()) {
+    if (index >= size()) {
       throw std::out_of_range("index out of range");
     }
     if (index == 0) {
@@ -86,7 +86,7 @@ class DoublyLinkedListQueue final : public AList<T> {
       return getTailPointer();
     }
     Node* current = getHeadPointer();
-    for (int64_t i = 1; i <= index; ++i) {
+    for (size_t i = 1; i <= index; ++i) {
       current = current->getNext();
     }
     return current;
@@ -122,12 +122,12 @@ class DoublyLinkedListQueue final : public AList<T> {
   }
 
   // Complexity: O(1)
-  void pushAt(int64_t const index, T&& item) override {
+  void pushAt(size_t const index, T&& item) override {
     if (index == 0) {
       pushFront(std::forward<T>(item));
       return;
     }
-    if (index < 0 || index >= size()) {
+    if (index >= size()) {
       throw std::out_of_range("index out of range");
     }
     Node* newNode = new Node{std::forward<T>(item)};
@@ -186,7 +186,7 @@ class DoublyLinkedListQueue final : public AList<T> {
   }
 
   // Complexity: O(1)
-  [[nodiscard]] T popAt(int64_t const index) override {
+  [[nodiscard]] T popAt(size_t const index) override {
     // beginning of queue
     if (index == 0) {
       return popFront();
@@ -206,7 +206,7 @@ class DoublyLinkedListQueue final : public AList<T> {
   }
 
   // Complexity: O(1)
-  void set(int64_t const index, T&& value) override {
+  void set(size_t const index, T&& value) override {
     Node* node = getNodeAt(index);
     node->setData(std::forward<T>(value));
   }

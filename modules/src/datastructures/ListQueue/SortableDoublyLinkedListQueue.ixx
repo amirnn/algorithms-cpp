@@ -27,7 +27,7 @@ class SortableDoublyLinkedListQueue final : public ASortableList<T> {
 
   [[nodiscard]] size_t size() const noexcept override { return m_list->size(); }
 
-  [[nodiscard]] T& getItemAt(int64_t const index) override {
+  [[nodiscard]] T& getItemAt(size_t const index) override {
     return m_list->at(index);
   }
 
@@ -39,7 +39,7 @@ class SortableDoublyLinkedListQueue final : public ASortableList<T> {
     return std::forward<T>(m_list->popBack());
   }
 
-  [[nodiscard]] T popAt(int64_t const index) override {
+  [[nodiscard]] T popAt(size_t const index) override {
     return std::forward<T>(m_list->popAt(index));
   }
   void clear() noexcept override { m_list->clear(); }
@@ -49,10 +49,10 @@ class SortableDoublyLinkedListQueue final : public ASortableList<T> {
   void pushBack(T&& element) noexcept override {
     m_list->pushBack(std::forward<T>(element));
   }
-  void pushAt(int64_t const index, T&& item) override {
+  void pushAt(size_t const index, T&& item) override {
     m_list->pushAt(index, std::forward<T>(item));
   }
-  void set(int64_t const index, T&& value) override {
+  void set(size_t const index, T&& value) override {
     m_list->set(index, std::forward<T>(value));
   }
 

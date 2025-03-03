@@ -17,18 +17,18 @@ class AList {
   [[nodiscard]] bool isEmpty() const noexcept { return size() == 0; }
 
  protected:
-  [[nodiscard]] virtual T& getItemAt(int64_t index) = 0;
+  [[nodiscard]] virtual T& getItemAt(size_t index) = 0;
 
  public:
-  [[nodiscard]] T& operator[](int64_t const index) { return getItemAt(index); }
+  [[nodiscard]] T& operator[](size_t const index) { return getItemAt(index); }
 
-  [[nodiscard]] T const& operator[](int64_t const index) const {
+  [[nodiscard]] T const& operator[](size_t const index) const {
     return operator[](index);
   }
 
-  [[nodiscard]] T& at(int64_t const index) { return operator[](index); }
+  [[nodiscard]] T& at(size_t const index) { return operator[](index); }
 
-  [[nodiscard]] T const& at(int64_t const index) const { return at(index); }
+  [[nodiscard]] T const& at(size_t const index) const { return at(index); }
 
   T& getHead() { return operator[](0); }
 
@@ -42,7 +42,7 @@ class AList {
 
   [[nodiscard]] virtual T popBack() = 0;
 
-  [[nodiscard]] virtual T popAt(int64_t index) = 0;
+  [[nodiscard]] virtual T popAt(size_t index) = 0;
 
   // setters
   virtual void clear() noexcept = 0;
@@ -56,7 +56,7 @@ class AList {
    * @param index index of the new element
    * @param item to be pushed
    */
-  virtual void pushAt(int64_t index, T&& item) = 0;
+  virtual void pushAt(size_t index, T&& item) = 0;
 
   /**
    * Sets the data in Node at index to value
@@ -64,7 +64,7 @@ class AList {
    * @param index
    * @param value
    */
-  virtual void set(int64_t index, T&& value) = 0;
+  virtual void set(size_t index, T&& value) = 0;
 };
 
 }  // namespace datastructures

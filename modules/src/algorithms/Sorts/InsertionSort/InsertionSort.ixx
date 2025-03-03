@@ -24,8 +24,8 @@ class InsertionSort final : public ASort<T> {
     auto& rdata = *data;
     size_t const size = rdata.size();
     for (size_t i = 1; i < size; ++i) {
-      if (size_t const correctIndex = binarySearchCorrectIndex(0, i - 1, i);
-          correctIndex != i) {
+      if (rdata[i] < rdata[i - 1]) {
+        size_t const correctIndex = binarySearchCorrectIndex(0, i - 1, i);
         for (size_t j = i; j > correctIndex; --j) {
           this->exchange(j, j - 1);
         }

@@ -21,14 +21,14 @@ class SortableDynamicArray final : public ASortableList<T> {
   }
 
  protected:
-  [[nodiscard]] T& getItemAt(int64_t const index) override {
+  [[nodiscard]] T& getItemAt(size_t const index) override {
     return m_array->at(index);
   }
 
  public:
   [[nodiscard]] T popFront() override { return m_array->popFront(); }
   [[nodiscard]] T popBack() override { return m_array->popBack(); }
-  [[nodiscard]] T popAt(int64_t index) override {
+  [[nodiscard]] T popAt(size_t index) override {
     return m_array->popAt(index);
   }
   void clear() noexcept override { m_array->clear(); }
@@ -38,10 +38,10 @@ class SortableDynamicArray final : public ASortableList<T> {
   void pushBack(T&& element) noexcept override {
     m_array->pushBack(std::forward<T>(element));
   }
-  void pushAt(int64_t index, T&& item) override {
+  void pushAt(size_t index, T&& item) override {
     m_array->pushAt(index, std::forward<T>(item));
   }
-  void set(int64_t index, T&& value) override {
+  void set(size_t index, T&& value) override {
     m_array->set(index, std::forward<T>(value));
   }
 
