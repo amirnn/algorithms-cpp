@@ -84,11 +84,12 @@ class DynamicArray final : public AList<T> {
   void pushFront(T&& element) noexcept override {
     if (isFull()) expand();
     if (this->isEmpty()) {
-      m_data[m_front] = std::forward<T>(element);
+      this->set(0,std::forward<T>(element));
       ++m_size;
       return;
     }
-    size_t t = getMappedIndex(--m_front);
+    --m_front;
+    size_t t = getMappedIndex(0);
     m_data[t] = std::forward<T>(element);
     ++m_size;
   }
@@ -96,13 +97,13 @@ class DynamicArray final : public AList<T> {
   void pushBack(T&& element) noexcept override {
     if (isFull()) expand();
     if (this->isEmpty()) {
-      m_data[m_back] = std::forward<T>(element);
+      this->set(0,std::forward<T>(element));
       ++m_size;
       return;
     }
-    size_t t = getMappedIndex(++m_back);
+    size_t t = getMappedIndex(++m_size - 1);
     m_data[t] = std::forward<T>(element);
-    ++m_size;
+    ++m_back;
   }
 
   void pushAt(int64_t const index, T&& item) override {
@@ -115,24 +116,19 @@ class DynamicArray final : public AList<T> {
     if (isFull()) expand();
     // closer to head
     if (index < m_size / 2) {
-      size_t t = (--m_front + m_capacity) % m_capacity;
-      m_data[t] = std::forward<T>(item);  // write data to new head
+      // write data to new head
+      pushFront(std::move(item));
       // exchange it until we are in the correct place
       for (size_t i = 0; i < index; ++i) {
-        int64_t const source = (m_front + i) % m_capacity;
-        int64_t const target = (m_front + i + 1) % m_capacity;
-        exchange(source, target);
+        exchange(i, i + 1);
       }
     }
-    // closer to head
+    // closer to tail
     else {
-      size_t t = (++m_back + m_capacity) % m_capacity;
-      m_data[t] = std::forward<T>(item);  // write data to the tail
+      pushBack(std::move(item));
       // exchange it until we are in the correct place
       for (size_t i = 0; i < m_size - index - 1; ++i) {
-        int64_t const source = (m_back - i + m_capacity) % m_capacity;
-        int64_t const target = (m_back - i - 1 + m_capacity) % m_capacity;
-        exchange(source, target);
+        exchange(i, i - 1);
       }
     }
     ++m_size;
@@ -141,54 +137,57 @@ class DynamicArray final : public AList<T> {
   [[nodiscard]] T popFront() override {
     if (this->isEmpty()) throw std::out_of_range("Empty array");
     if (isAlmostEmpty()) shrink();
-    if (size() == 1) return std::move(m_data[m_front]);
-    size_t t = (m_front++ + m_capacity) % m_capacity;
+    if (size() == 1) {
+      T result = std::move(this->at(0));
+      --m_size;
+      return result;
+    }
+    T result = std::move(this->at(0));
+    ++m_front;
     --m_size;
-    T result = std::move(m_data[t]);
     return result;
   }
 
   [[nodiscard]] T popBack() override {
     if (this->isEmpty()) throw std::out_of_range("Empty array");
     if (isAlmostEmpty()) shrink();
-    if (size() == 1) return std::move(m_data[m_back]);
-    size_t t = (m_back-- + m_capacity) % m_capacity;
+    if (size() == 1) {
+      T result = std::move(this->at(0));
+      --m_size;
+      return result;
+    }
+    T result = std::move(this->at(size() - 1));
+    --m_back;
     --m_size;
-    T result = std::move(m_data[t]);
     return result;
   }
 
   [[nodiscard]] T popAt(int64_t const index) override {
     boundsCheck(index);
-    if (index == 0) return popFront();
-    if (index == m_size - 1) return popBack();
     // closer to head
-    if (size_t const t = getMappedIndex(index); t < m_size / 2) {
-      for (size_t i = 0; i < index + 1; ++i) {
-        int64_t const source = (m_front + i + m_capacity) % m_capacity;
-        int64_t const target = (m_front + i - 1 + m_capacity) % m_capacity;
-        exchange(source, target);
+    if (index <= m_size / 2) {
+      for (size_t i = index; i > 0; --i) {
+        exchange(i, i - 1);
       }
-      size_t head = (m_front-- + m_capacity) % m_capacity;
-      --m_size;
-      T result = std::move(m_data[head]);
+      T result = std::move(popFront());
       return result;
     } else {
-      for (size_t i = 0; i < m_size - index - 1; ++i) {
-        int64_t const source = (m_back - i + m_capacity) % m_capacity;
-        int64_t const target = (m_back - i - 1 + m_capacity) % m_capacity;
-        exchange(source, target);
+      for (size_t i = index; i < m_size - 1; ++i) {
+        exchange(i, i + 1);
       }
-      size_t tail = (m_back-- + m_capacity) % m_capacity;
-      --m_size;
-      T result = std::move(m_data[tail]);
+      T result = std::move(popBack());
       return result;
     }
   }
 
   void set(int64_t const index, T&& value) override {
+    if (index == 0 && m_size == 0) {
+      m_data[0] = std::forward<T>(value);
+      m_size = 1;
+      return;
+    }
     boundsCheck(index);
-    m_data[index] = std::forward<T>(value);
+    m_data[getMappedIndex(index)] = std::forward<T>(value);
   }
 
   void clear() noexcept override {
@@ -203,14 +202,14 @@ class DynamicArray final : public AList<T> {
  private:
   /**
    *
-   * @param index
-   * @return
+   * @param index is in range [head, #elements)
+   * @return the actual index of data in the circular buffer
    */
   [[nodiscard]] size_t getMappedIndex(int64_t const index) const noexcept {
-    int64_t const indexMod = index % bufferSize;
-    int64_t const headMod = head % bufferSize;
-    int64_t const secondMod = (headMod + bufferSize) % bufferSize;
-    int64_t const actualIndex = (indexMod + secondMod) % bufferSize;
+    int64_t const indexMod = index;
+    int64_t const headMod = m_front % m_capacity;
+    int64_t const secondMod = (headMod + m_capacity) % m_capacity;
+    int64_t const actualIndex = (indexMod + secondMod) % m_capacity;
     return actualIndex;
   }
 
@@ -232,8 +231,7 @@ class DynamicArray final : public AList<T> {
     size_t const newCapacity = m_capacity * s_expansionFactor;
     T* newData = new T[newCapacity];
     for (size_t i = 0; i < m_size; ++i) {
-      size_t const t = getMappedIndex(i);
-      newData[i] = std::move(m_data[t]);
+      newData[i] = std::move(this->at(i));
     }
     delete[] m_data;
     m_data = newData;
@@ -249,8 +247,7 @@ class DynamicArray final : public AList<T> {
     size_t const newCapacity = m_capacity / s_expansionFactor;
     T* newData = new T[newCapacity];
     for (size_t i = 0; i < m_size; ++i) {
-      size_t const t = getMappedIndex(i);
-      newData[i] = std::move(m_data[t]);
+      newData[i] = std::move(this->at(i));
     }
     delete[] m_data;
     m_data = newData;
@@ -260,11 +257,12 @@ class DynamicArray final : public AList<T> {
   }
 
   void exchange(int64_t const source, int64_t const target) {
-    if (source < 0 || target < 0 || static_cast<size_t>(source) >= m_size || static_cast<size_t>(target) >= m_size)
+    if (source < 0 || target < 0 || static_cast<size_t>(source) >= m_size ||
+        static_cast<size_t>(target) >= m_size)
       throw std::out_of_range("index out of range");
-    T temp = std::move(m_data[source]);
-    m_data[source] = std::move(m_data[target]);
-    m_data[target] = std::move(temp);
+    T temp = std::move(this->at(source));
+    set(source, std::move(this->at(target)));
+    set(target, std::move(temp));
   }
 
  private:

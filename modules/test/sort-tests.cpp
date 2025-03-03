@@ -18,4 +18,8 @@ int main (int argc, char** argv) {
 
   tests::insertionSortTest(array);
   array.clear();
+
+  // tests::shellSortTest(array);
+  // array.clear();
+
 }

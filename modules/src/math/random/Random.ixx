@@ -47,4 +47,4 @@ template <std::integral T>
 [[nodiscard]] T uniform(T a, T b) {
   return static_cast<T>(uniform<long double>(a, b));
 }
-}  // namespace random
+}  // namespace dsa::random

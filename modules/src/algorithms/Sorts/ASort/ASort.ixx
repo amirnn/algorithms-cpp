@@ -5,6 +5,7 @@ module;
 #include <concepts>
 export module DSA:Sort.ASort;
 import :List.ASortableList;
+import :Math.Random;
 
 export namespace algorithms {
 template <std::totally_ordered T>
@@ -23,6 +24,16 @@ class ASort {
       }
     }
     return true;
+  }
+
+  // implements knuth's linear shuffle
+  void shuffle() noexcept {
+    auto& data = *m_data;
+    if (data.size() <= 1) return;
+    for (int i = 1; i < data.size(); ++i) {
+      int64_t const target = dsa::random::uniform(0, i);
+      exchange(i, target);
+    }
   }
 
  protected:
