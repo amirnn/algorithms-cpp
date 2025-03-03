@@ -14,7 +14,7 @@ class ShellSort final : public ASort<T> {
     // mandatory
     this->m_data = data;
     // O(n)
-    if (this->isSorted()) {
+    if (data->isSorted()) {
       return;
     }
     size_t const size = this->m_data->size();

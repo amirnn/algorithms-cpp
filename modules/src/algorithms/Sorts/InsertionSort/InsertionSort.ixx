@@ -18,7 +18,7 @@ class InsertionSort final : public ASort<T> {
     // mandatory
     this->m_data = data;
     // O(n)
-    if (this->isSorted()) {
+    if (data->isSorted()) {
       return;
     }
     auto& rdata = *data;

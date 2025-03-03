@@ -70,9 +70,14 @@ class DoublyLinkedListQueue final : public AList<T> {
     return node->getData();
   }
 
+  [[nodiscard]] T const& getItemAt(size_t index) const override {
+    Node* node = getNodeAt(index);
+    return node->getData();
+  }
+
  private:
   // Complexity: O(n)
-  [[nodiscard]] Node* getNodeAt(size_t const index) {
+  [[nodiscard]] Node* getNodeAt(size_t const index) const {
     if (this->isEmpty()) {
       throw std::out_of_range("ListQueue is empty.");
     }
@@ -214,6 +219,10 @@ class DoublyLinkedListQueue final : public AList<T> {
   [[nodiscard]] Node*& getHeadPointer() noexcept { return m_front; }
 
   [[nodiscard]] Node*& getTailPointer() noexcept { return m_back; }
+
+  [[nodiscard]] Node* const& getHeadPointer() const noexcept { return m_front; }
+
+  [[nodiscard]] Node* const& getTailPointer() const noexcept { return m_back; }
 
   // setters
 

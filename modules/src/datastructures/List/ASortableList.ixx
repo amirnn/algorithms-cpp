@@ -25,5 +25,23 @@ class ASortableList : public AList<T> {
     Algorithm algorithm = Algorithm();
     algorithm.sort(this);
   }
+
+  [[nodiscard]] bool isSorted() const noexcept {
+    for (size_t i = 0; i < this->size(); ++i) {
+      if (this->at(i) > this->at(i + 1)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  [[nodiscard]] bool isReverseSorted() const noexcept {
+    for (size_t i = 0; i < this->size(); ++i) {
+      if (this->at(i) < this->at(i + 1)) {
+        return false;
+      }
+    }
+    return true;
+  }
 };
 }  // namespace datastructures

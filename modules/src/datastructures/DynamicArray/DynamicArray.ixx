@@ -81,6 +81,13 @@ class DynamicArray final : public AList<T> {
     return m_data[t];
   }
 
+  [[nodiscard]] T const& getItemAt(size_t const index) const override {
+    boundsCheck(index);
+    size_t t = getMappedIndex(index);
+    return m_data[t];
+  }
+
+ public:
   void pushFront(T&& element) noexcept override {
     if (isFull()) expand();
     if (this->isEmpty()) {

@@ -19,24 +19,26 @@ class AList {
  protected:
   [[nodiscard]] virtual T& getItemAt(size_t index) = 0;
 
+  [[nodiscard]] virtual T const& getItemAt(size_t index) const = 0;
+
  public:
   [[nodiscard]] T& operator[](size_t const index) { return getItemAt(index); }
 
   [[nodiscard]] T const& operator[](size_t const index) const {
-    return operator[](index);
+    return getItemAt(index);
   }
 
-  [[nodiscard]] T& at(size_t const index) { return operator[](index); }
+  [[nodiscard]] T& at(size_t const index) { return getItemAt(index); }
 
-  [[nodiscard]] T const& at(size_t const index) const { return at(index); }
+  [[nodiscard]] T const& at(size_t const index) const { return getItemAt(index); }
 
-  T& getHead() { return operator[](0); }
+  T& getHead() { return getItemAt(0); }
 
-  T const& getHead() const { return getHead(); }
+  T const& getHead() const { return getItemAt(0); }
 
-  T& getTail() { return operator[](size() - 1); }
+  T& getTail() { return getItemAt(size() - 1); }
 
-  T const& getTail() const { return getTail(); }
+  T const& getTail() const { return getItemAt(size() - 1); }
 
   [[nodiscard]] virtual T popFront() = 0;
 

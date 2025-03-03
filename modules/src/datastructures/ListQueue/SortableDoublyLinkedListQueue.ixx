@@ -31,6 +31,11 @@ class SortableDoublyLinkedListQueue final : public ASortableList<T> {
     return m_list->at(index);
   }
 
+  [[nodiscard]] const T& getItemAt(size_t index) const override {
+    return m_list->at(index);
+  }
+
+ public:
   [[nodiscard]] T popFront() override {
     return std::forward<T>(m_list->popFront());
   }
