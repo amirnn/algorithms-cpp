@@ -9,4 +9,7 @@ In this project I am using Modern C++ to implement my own datastructure and algo
 **modules/src** is the private section of the library where the implementations lay.
 
 ## C++ Modules and CMake
+
 I am using C++ Modules (C++20) and CMake to build these modules.
+
+Copyright 2025 by Amir Nourinia
