@@ -2,6 +2,7 @@
 
 module;
 #include <cstdint>
+#include <cstddef>
 export module DSA:Math.Matrix;
 
 export namespace la {
@@ -10,7 +11,7 @@ export namespace la {
     class Matrix {
     public:
         enum class DataMajor : uint8_t { RowMajor, ColumnMajor };
-        Matrix(int64_t const rows, int64_t const cols, DataMajor data_major = DataMajor::ColumnMajor)
+        Matrix(size_t const rows, size_t const cols, DataMajor data_major = DataMajor::ColumnMajor)
             : m_data_major(data_major), m_rows(rows), m_cols(cols) {
             m_data = new T[rows * cols];
             for (int64_t i = 0; i < rows * cols; i++) {
@@ -73,8 +74,8 @@ export namespace la {
     private:
         DataMajor m_data_major{DataMajor::ColumnMajor};
         T* m_data;
-        int64_t m_rows;
-        int64_t m_cols;
+        size_t m_rows;
+        size_t m_cols;
     };
 
 } // namespace bluecpp
