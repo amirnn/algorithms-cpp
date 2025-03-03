@@ -1,8 +1,8 @@
 // Copyright 2025 by Amir Nourinia
 
 module;
-#include <cstdint>
 #include <cstddef>
+#include <cstdint>
 export module DSA:List.AList;
 import :Math.Random;
 
@@ -31,7 +31,9 @@ class AList {
 
   [[nodiscard]] T& at(size_t const index) { return getItemAt(index); }
 
-  [[nodiscard]] T const& at(size_t const index) const { return getItemAt(index); }
+  [[nodiscard]] T const& at(size_t const index) const {
+    return getItemAt(index);
+  }
 
   T& getHead() { return getItemAt(0); }
 
@@ -59,8 +61,6 @@ class AList {
     }
   }
 
-  virtual void exchange(size_t source, size_t target) = 0;
-
   virtual void pushFront(T&& element) noexcept = 0;
 
   virtual void pushBack(T&& element) noexcept = 0;
@@ -79,6 +79,13 @@ class AList {
    * @param value
    */
   virtual void set(size_t index, T&& value) = 0;
+
+  /**
+   * exchange two existing items with each other
+   * @param source should be < #elements
+   * @param target should be < #elements
+   */
+  virtual void exchange(size_t source, size_t target) = 0;
 };
 
 }  // namespace datastructures

@@ -206,9 +206,7 @@ class DynamicArray final : public AList<T> {
   }
 
   void exchange(size_t const source, size_t const target) override {
-    if (source < 0 || target < 0 || static_cast<size_t>(source) >= m_size ||
-        static_cast<size_t>(target) >= m_size)
-      throw std::out_of_range("index out of range");
+    if (source >= m_size || target >= m_size) throw std::out_of_range("index out of range");
     T temp = std::move(this->at(source));
     set(source, std::move(this->at(target)));
     set(target, std::move(temp));
