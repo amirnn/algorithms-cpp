@@ -18,7 +18,7 @@ class ShellSort final : public ASort<T> {
       return;
     }
     size_t const size = this->m_data->size();
-    int h = generateMaximumElementUsingKnuthMethod(size);  // log(N)
+    size_t h = generateMaximumElementUsingKnuthMethod(size);  // log(N)
     while (h >= 1) {
       for (size_t i = h; i < size; ++i) {
         for (size_t j = i; j >= h && (data->at(j) < data->at(j - h)); j -= h) {
@@ -31,8 +31,8 @@ class ShellSort final : public ASort<T> {
 
  private:
   // log(N)
-  static int generateMaximumElementUsingKnuthMethod(size_t const size) {
-    int h = 1;
+  static size_t generateMaximumElementUsingKnuthMethod(size_t const size) {
+    size_t h = 1;
     while (h < size / 3)
       h = 3 * h + 1;  // 1, 4, 13, 40, 121, 364, ...
     return h;
