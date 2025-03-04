@@ -1,58 +1,79 @@
 # Copyright 2025 by Amir Nourinia
 # src
 
-set(ARTIFACT_NAME dsa)
+set(ARTIFACT_NAME_DSA dsa)
 
-add_library(${ARTIFACT_NAME} STATIC)
+add_library(${ARTIFACT_NAME_DSA} STATIC)
 # thanks to https://gitlab.kitware.com/cmake/cmake/-/issues/25493
 # and https://www.kitware.com/import-cmake-the-experiment-is-over/
 # also interesting, https://www.kitware.com/import-std-in-cmake-3-30/
-target_sources(${ARTIFACT_NAME}
+target_sources(${ARTIFACT_NAME_DSA}
         PRIVATE
         # implementation units *.cpp
         #datastructures
         #algorithms
         # math
         # utils
-        src/utils/io/IO.cpp
+        src/dsa/utils/io/IO.cpp
         PUBLIC
         FILE_SET all_modules
         TYPE CXX_MODULES
         BASE_DIRS
         # interfaces
-        include/
+        include/dsa
         # partitions
-        src/datastructures
-        src/algorithms
-        src/math
-        src/utils
+        src/dsa/datastructures
+        src/dsa/algorithms
+        src/dsa/math
+        src/dsa/utils
         FILES
         # main interface
-        include/DSA.ixx
+        include/dsa/DSA.ixx
         # data structures
-        include/datastructures/List.ixx
-        src/datastructures/List/AList.ixx
-        src/datastructures/ListQueue/DoublyLinkedListQueue.ixx
-        src/datastructures/List/ASortableList.ixx
-        src/datastructures/ListQueue/SortableDoublyLinkedListQueue.ixx
-        src/datastructures/DynamicArray/DynamicArray.ixx
-        src/datastructures/DynamicArray/SortableDynamicArray.ixx
+        include/dsa/datastructures/List.ixx
+        src/dsa/datastructures/List/AList.ixx
+        src/dsa/datastructures/ListQueue/DoublyLinkedListQueue.ixx
+        src/dsa/datastructures/List/ASortableList.ixx
+        src/dsa/datastructures/ListQueue/SortableDoublyLinkedListQueue.ixx
+        src/dsa/datastructures/DynamicArray/DynamicArray.ixx
+        src/dsa/datastructures/DynamicArray/SortableDynamicArray.ixx
         # algorithms
-        include/algorithms/Sort.ixx
-        src/algorithms/Sorts/ASort/ASort.ixx
-        src/algorithms/Sorts/HeapSort/HeapSort.ixx
-        src/algorithms/Sorts/InsertionSort/InsertionSort.ixx
-        src/algorithms/Sorts/ShellSort/ShellSort.ixx
-        src/algorithms/Sorts/MergeSort/MergeSort.ixx
-        src/algorithms/Sorts/QuickSort/QuickSort.ixx
-        src/algorithms/Sorts/SelectionSort/SelectionSort.ixx
+        include/dsa/algorithms/Sort.ixx
+        src/dsa/algorithms/Sorts/ASort/ASort.ixx
+        src/dsa/algorithms/Sorts/HeapSort/HeapSort.ixx
+        src/dsa/algorithms/Sorts/InsertionSort/InsertionSort.ixx
+        src/dsa/algorithms/Sorts/ShellSort/ShellSort.ixx
+        src/dsa/algorithms/Sorts/MergeSort/MergeSort.ixx
+        src/dsa/algorithms/Sorts/QuickSort/QuickSort.ixx
+        src/dsa/algorithms/Sorts/SelectionSort/SelectionSort.ixx
         # math
-        include/math/Math.ixx
-        src/math/la/Matrix.ixx
-        src/math/random/Random.ixx
+        include/dsa/math/Math.ixx
+        src/dsa/math/la/Matrix.ixx
+        src/dsa/math/random/Random.ixx
         # utils
-        include/utils/Utils.ixx
-        src/utils/io/IO.ixx
+        include/dsa/utils/Utils.ixx
+        src/dsa/utils/io/IO.ixx
+)
+
+set(ARTIFACT_NAME_GEOMETRY geometry)
+
+add_library(${ARTIFACT_NAME_GEOMETRY})
+target_sources(${ARTIFACT_NAME_GEOMETRY}
+        PRIVATE
+        PUBLIC
+        FILE_SET modules
+        TYPE CXX_MODULES
+        BASE_DIRS
+        # interfaces
+        include/geometry
+        # partitions
+        src/geometry
+        FILES
+        # geometry
+        include/geometry/Geometry.ixx
+        src/geometry/Vector.ixx
+        src/geometry/Matrix.ixx
+        src/geometry/Point.ixx
 )
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/install.cmake)

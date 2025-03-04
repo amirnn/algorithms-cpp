@@ -1,17 +1,17 @@
 # install.cmake
 # look at: https://cmake.org/cmake/help/latest/guide/importing-exporting/index.html
 
-set(DSA_EXPORT_TARGET_NAME "${ARTIFACT_NAME}-targets")
+set(DSA_EXPORT_TARGET_NAME "${ARTIFACT_NAME_DSA}-targets")
 
 # Specify module search paths
 target_include_directories(
-        ${ARTIFACT_NAME}
+        ${ARTIFACT_NAME_DSA}
         PUBLIC
         "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/modules/include>"
         "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
 )
 
-install(TARGETS ${ARTIFACT_NAME}
+install(TARGETS ${ARTIFACT_NAME_DSA}
         EXPORT ${DSA_EXPORT_TARGET_NAME}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
@@ -40,13 +40,13 @@ install(EXPORT ${DSA_EXPORT_TARGET_NAME}
 # configure file
 include(CMakePackageConfigHelpers)
 configure_package_config_file(
-        "${CMAKE_CURRENT_SOURCE_DIR}/../cmake/${ARTIFACT_NAME}-config.cmake.in"
-        "${CMAKE_CURRENT_BINARY_DIR}/${ARTIFACT_NAME}-config.cmake"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../cmake/${ARTIFACT_NAME_DSA}-config.cmake.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/${ARTIFACT_NAME_DSA}-config.cmake"
         INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/dsa
 )
 
 install(FILES
-        "${CMAKE_CURRENT_BINARY_DIR}/${ARTIFACT_NAME}-config.cmake"
-#        "${CMAKE_CURRENT_BINARY_DIR}/${ARTIFACT_NAME}ConfigVersion.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/${ARTIFACT_NAME_DSA}-config.cmake"
+#        "${CMAKE_CURRENT_BINARY_DIR}/${ARTIFACT_NAME_DSA}ConfigVersion.cmake"
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/dsa
 )
