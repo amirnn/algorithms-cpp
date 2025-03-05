@@ -87,10 +87,16 @@ class Vector {
     auto const& self = *this;
     auto const selfUnitVector = self.unit();
     auto const otherUnitVector = other.unit();
+
     GeneralizedUnderlyingField const result =
         std::sqrt(std::abs(selfUnitVector.dot(otherUnitVector)));
-    GeneralizedUnderlyingField const error = propagatedErrorUpperBound();
-    return std::abs(result - 1) <= error;
+
+    // calculate error bound
+    GeneralizedUnderlyingField const propagatedErrorBound =
+        std::sqrt(D) *
+        std::numeric_limits<GeneralizedUnderlyingField>::epsilon();
+
+    return std::abs(result - 1) <= propagatedErrorBound;
   }
 
   [[nodiscard]] GeneralizedUnderlyingField norm() const noexcept {
@@ -150,14 +156,6 @@ class Vector {
       self[i] /= norm;
     }
     return *this;
-  }
-
- private:
-  // getters
-  [[nodiscard]] constexpr static GeneralizedUnderlyingField
-  propagatedErrorUpperBound() noexcept {
-    return std::sqrt(D) *
-           std::numeric_limits<GeneralizedUnderlyingField>::epsilon();
   }
 
  private:

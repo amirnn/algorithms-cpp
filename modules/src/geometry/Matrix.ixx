@@ -5,31 +5,62 @@
 module;
 #include <array>
 #include <concepts>
+#include <memory>
 #include <ranges>
 #include <vector>
 export module Geometry:Matrix;
 
 export namespace geometry {
 
+/**
+ *
+ *
+ *
+ * Notes:
+ * -  Adding modifier methods i.e. non-const methods should always set m_matrix_modified
+ *    to true. This is the least garauntee that I can give to constness and efficiency of the calculations.
+ *
+ *
+ *
+ *
+ * @tparam T
+ * @tparam r
+ * @tparam c
+ * @tparam row_major
+ * @tparam is_static
+ */
 template <typename T, size_t r, size_t c, bool row_major = true,
           bool is_static = true>
   requires std::is_arithmetic_v<T>
 class Matrix {
+
   using UnderlyingDataType =
       std::conditional_t<is_static, std::array<T, r * c>, std::vector<T>>;
 
   using GeneralizedUnderlyingField =
       std::conditional_t<std::is_floating_point_v<T>, long double, double>;
 
+  struct LUDecomposition {
+    std::unique_ptr<Matrix> P;
+    std::unique_ptr<Matrix> L;
+    std::unique_ptr<Matrix> U;
+  };
+
+  struct SVDecomposition {
+    std::unique_ptr<Matrix> S;
+    std::unique_ptr<Matrix> V;
+  };
+
  public:
   Matrix() {
     if constexpr (is_static) {
-      for (size_t i = 0; i < m_matrixSize; ++i) {
+      for (size_t i = 0; i < m_matrix_size; ++i) {
         m_data.at(i) = 0;
       }
     } else {
-      m_data = std::vector<T>(m_matrixSize, 0);
+      m_data = std::vector<T>(m_matrix_size, 0);
     }
+    m_matrix_has_been_modified = true;
   }
 
   Matrix(Matrix const& other) : Matrix() {
@@ -37,14 +68,16 @@ class Matrix {
     // if constexpr (not is_static) {
     //   m_data = std::vector<T>(m_matrixSize, 0);
     // }
-    for (size_t i = 0; i < m_matrixSize; ++i) {
+    for (size_t i = 0; i < m_matrix_size; ++i) {
       m_data.at(i) = other.m_data.at(i);
     }
+    m_matrix_has_been_modified = true;
   }
 
   // getters
   T& operator[](size_t const i, size_t const j) {
     size_t const index = mappedIndex(i, j);
+    m_matrix_has_been_modified = true;
     return m_data.at(index);
   }
 
@@ -67,24 +100,29 @@ class Matrix {
  public:
   std::ranges::random_access_range auto column(size_t const j) const noexcept {
     using namespace std::ranges::views;
+    size_t skip_elements = j * r;
     size_t stride = 0ul;
     if constexpr (row_major) {
       stride = c;
     } else {
       stride = 1;
     }
-    return m_data | std::ranges::views::stride(stride) | take(r) | as_const;
+    return m_data | std::ranges::views::stride(stride) | drop(skip_elements) |
+           take(r) | as_const;
   }
 
   std::ranges::random_access_range auto column(size_t const j) noexcept {
     using namespace std::ranges::views;
+    size_t skip_elements = j * r;
     size_t stride = 0ul;
     if constexpr (row_major) {
       stride = c;
     } else {
       stride = 1;
     }
-    return m_data | std::ranges::views::stride(stride) | take(r);
+    m_matrix_has_been_modified = true;
+    return m_data | std::ranges::views::stride(stride) | drop(skip_elements) |
+           take(r);
   }
 
   /**
@@ -98,24 +136,29 @@ class Matrix {
 
   std::ranges::random_access_range auto row(size_t const i) const noexcept {
     using namespace std::ranges::views;
+    size_t skip_elements = i * c;
     size_t stride = 0ul;
     if constexpr (row_major) {
       stride = 1;
     } else {
       stride = r;
     }
-    return m_data | std::ranges::views::stride(stride) | take(c) | as_const;
+    return m_data | std::ranges::views::stride(stride) | drop(skip_elements) |
+           take(c) | as_const;
   }
 
   std::ranges::random_access_range auto row(size_t const i) noexcept {
     using namespace std::ranges::views;
+    size_t skip_elements = i * c;
     size_t stride = 0ul;
     if constexpr (row_major) {
       stride = 1;
     } else {
       stride = r;
     }
-    return m_data | std::ranges::views::stride(stride) | take(c);
+    m_matrix_has_been_modified = true;
+    return m_data | std::ranges::views::stride(stride) | drop(skip_elements) |
+           take(c);
   }
 
   /**
@@ -131,7 +174,7 @@ class Matrix {
   void transpose() noexcept {
     UnderlyingDataType newData;
     if constexpr (not is_static) {
-      newData = std::vector<T>(m_matrixSize, 0);
+      newData = std::vector<T>(m_matrix_size, 0);
     }
     for (size_t i = 0; i < r; ++i) {
       for (size_t j = 0; j < c; ++j) {
@@ -139,36 +182,65 @@ class Matrix {
       }
     }
     m_data = std::move(newData);
+    m_matrix_has_been_modified = true;
   }
 
   // arithmetic
+
+  /**
+   * Calculates the determinant of the matrix, uses LU decomposition. In case
+   * it is calculated, uses the old calculated values. Hence, a const instance
+   * can be utilized efficiently.
+   * @return
+   */
   [[nodiscard]] GeneralizedUnderlyingField determinant() const noexcept
     requires(r == c)
   {
-    auto const& [p, l, u] = LUDecompose(*this);
+    if (m_matrix_has_been_modified || m_lu_decomposition == nullptr) lud();
+
+    auto const& [p, l, u] = *m_lu_decomposition;
+
     GeneralizedUnderlyingField product = 0;
+
     for (size_t i = 0; i < r; ++i) {
       product += l[i, i] * u[i, i] * p[i, i];
     }
+
     return product;
   }
 
-  struct LUDecomposition {
-    Matrix P;
-    Matrix L;
-    Matrix U;
-  };
-
-  static LUDecomposition LUDecompose(Matrix& matrix) noexcept
+private:
+  /**
+   * Calculates the LU Decomposition of the matrix
+   */
+  void lud() noexcept
     requires(r == c)
   {
+    // TODO
+    m_lu_decomposition = std::make_unique<LUDecomposition>();
+    m_matrix_has_been_modified = false;
+  }
 
-    return {};
+  void svd() noexcept {
+    // TODO
+    m_svd_decomposition = std::make_unique<SVDecomposition>();
+    m_matrix_has_been_modified = false;
+  }
+
+  void inverse() noexcept requires (r == c)
+  {
+    // TODO
+    m_inverse_matrix = std::make_unique<Matrix>();
+    m_matrix_has_been_modified = false;
   }
 
  private:
   UnderlyingDataType m_data;
-  size_t const m_matrixSize = r * c;
+  size_t const m_matrix_size = r * c;
+  std::unique_ptr<LUDecomposition> m_lu_decomposition;
+  std::unique_ptr<SVDecomposition> m_svd_decomposition;
+  std::unique_ptr<Matrix> m_inverse_matrix;
+  bool m_matrix_has_been_modified = false;
 };
 
 }  // namespace geometry
