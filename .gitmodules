@@ -4,3 +4,6 @@
 [submodule "libs/catch2"]
 	path = libs/catch2
 	url = https://github.com/catchorg/Catch2.git
+[submodule "libs/geometry"]
+	path = libs/geometry
+	url = https://github.com/amirnn/geometry.git
