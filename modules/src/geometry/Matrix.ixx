@@ -53,6 +53,7 @@ class Matrix {
     return m_data.at(index);
   }
 
+ private:
   [[nodiscard]] static size_t mappedIndex(size_t const i, size_t const j) {
     if constexpr (row_major) {
       size_t const index = (i * r) + j;
@@ -63,6 +64,7 @@ class Matrix {
     }
   }
 
+ public:
   std::ranges::random_access_range auto column(size_t const j) const noexcept {
     using namespace std::ranges::views;
     size_t stride = 0ul;
@@ -85,6 +87,15 @@ class Matrix {
     return m_data | std::ranges::views::stride(stride) | take(r);
   }
 
+  /**
+   * Get a copy of column
+   * @param j
+   * @return copy of column j
+   */
+  std::vector<T> columnAsVector(size_t const j) const noexcept {
+    return std::ranges::to<std::vector<T>>(column(j));
+  }
+
   std::ranges::random_access_range auto row(size_t const i) const noexcept {
     using namespace std::ranges::views;
     size_t stride = 0ul;
@@ -105,6 +116,15 @@ class Matrix {
       stride = r;
     }
     return m_data | std::ranges::views::stride(stride) | take(c);
+  }
+
+  /**
+   * Get a copy of the row
+   * @param i
+   * @return a vector of row i
+   */
+  std::vector<T> rowAsVector(size_t const i) const noexcept {
+    return std::ranges::to<std::vector<T>>(row(i));
   }
 
   // setters
