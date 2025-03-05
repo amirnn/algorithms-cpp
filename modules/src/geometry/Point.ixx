@@ -104,6 +104,13 @@ class Point {
     return areParallel;
   }
 
+
+  [[nodiscard]] bool counterClockWiseTurn(Point const& lhs,
+                               Point const& rhs) requires ( D == 2)
+  {
+
+  }
+
  private:
   UnderlyingDataType m_coordinates;
   using FieldType = T;
