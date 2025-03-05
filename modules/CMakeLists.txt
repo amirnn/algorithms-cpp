@@ -14,45 +14,45 @@ target_sources(${ARTIFACT_NAME_DSA}
         #algorithms
         # math
         # utils
-        src/dsa/utils/io/IO.cpp
+        src/utils/io/IO.cpp
         PUBLIC
         FILE_SET all_modules
         TYPE CXX_MODULES
         BASE_DIRS
         # interfaces
-        include/dsa
+        include/
         # partitions
-        src/dsa/datastructures
-        src/dsa/algorithms
-        src/dsa/math
-        src/dsa/utils
+        src/datastructures
+        src/algorithms
+        src/math
+        src/utils
         FILES
         # main interface
-        include/dsa/DSA.ixx
+        include/DSA.ixx
         # data structures
-        include/dsa/datastructures/List.ixx
-        src/dsa/datastructures/List/AList.ixx
-        src/dsa/datastructures/ListQueue/DoublyLinkedListQueue.ixx
-        src/dsa/datastructures/List/ASortableList.ixx
-        src/dsa/datastructures/ListQueue/SortableDoublyLinkedListQueue.ixx
-        src/dsa/datastructures/DynamicArray/DynamicArray.ixx
-        src/dsa/datastructures/DynamicArray/SortableDynamicArray.ixx
+        include/datastructures/List.ixx
+        src/datastructures/List/AList.ixx
+        src/datastructures/ListQueue/DoublyLinkedListQueue.ixx
+        src/datastructures/List/ASortableList.ixx
+        src/datastructures/ListQueue/SortableDoublyLinkedListQueue.ixx
+        src/datastructures/DynamicArray/DynamicArray.ixx
+        src/datastructures/DynamicArray/SortableDynamicArray.ixx
         # algorithms
-        include/dsa/algorithms/Sort.ixx
-        src/dsa/algorithms/Sorts/ASort/ASort.ixx
-        src/dsa/algorithms/Sorts/HeapSort/HeapSort.ixx
-        src/dsa/algorithms/Sorts/InsertionSort/InsertionSort.ixx
-        src/dsa/algorithms/Sorts/ShellSort/ShellSort.ixx
-        src/dsa/algorithms/Sorts/MergeSort/MergeSort.ixx
-        src/dsa/algorithms/Sorts/QuickSort/QuickSort.ixx
-        src/dsa/algorithms/Sorts/SelectionSort/SelectionSort.ixx
+        include/algorithms/Sort.ixx
+        src/algorithms/Sorts/ASort/ASort.ixx
+        src/algorithms/Sorts/HeapSort/HeapSort.ixx
+        src/algorithms/Sorts/InsertionSort/InsertionSort.ixx
+        src/algorithms/Sorts/ShellSort/ShellSort.ixx
+        src/algorithms/Sorts/MergeSort/MergeSort.ixx
+        src/algorithms/Sorts/QuickSort/QuickSort.ixx
+        src/algorithms/Sorts/SelectionSort/SelectionSort.ixx
         # math
-        include/dsa/math/Math.ixx
-        src/dsa/math/la/Matrix.ixx
-        src/dsa/math/random/Random.ixx
+        include/math/Math.ixx
+        src/math/la/Matrix.ixx
+        src/math/random/Random.ixx
         # utils
-        include/dsa/utils/Utils.ixx
-        src/dsa/utils/io/IO.ixx
+        include/utils/Utils.ixx
+        src/utils/io/IO.ixx
 )
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/install.cmake)
