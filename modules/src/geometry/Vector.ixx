@@ -10,7 +10,7 @@ export module Geometry:Vector;
 
 export namespace geometry {
 
-template <typename T, size_t D, bool is_static>
+template <typename T, size_t D, bool is_static = true>
   requires std::is_arithmetic_v<T> && (D > 0)
 class Vector {
 
@@ -20,7 +20,7 @@ class Vector {
       std::conditional_t<std::is_floating_point_v<T>, long double, double>;
 
  public:
-  // ctors
+  // Constructors
   Vector() {
     if constexpr (not is_static) {
       m_elements = std::vector<T>(D, 0);
@@ -78,16 +78,17 @@ class Vector {
     return m_elements.at(index);
   }
 
-  [[nodiscard]] Vector unitVector() const noexcept {
+  [[nodiscard]] Vector unit() const noexcept {
     Vector result = *this;  // deep copies
     return result.normalize();
   }
 
   [[nodiscard]] bool isParallel(Vector const& other) const noexcept {
     auto const& self = *this;
-    auto const selfUnitVector = self.unitVector();
-    auto const otherUnitVector = other.unitVector();
-    GeneralizedUnderlyingField const result = std::sqrt(std::abs(selfUnitVector.dot(otherUnitVector)));
+    auto const selfUnitVector = self.unit();
+    auto const otherUnitVector = other.unit();
+    GeneralizedUnderlyingField const result =
+        std::sqrt(std::abs(selfUnitVector.dot(otherUnitVector)));
     GeneralizedUnderlyingField const error = propagatedErrorUpperBound();
     return std::abs(result - 1) <= error;
   }
@@ -113,6 +114,32 @@ class Vector {
     }
     return result;
   }
+
+  /**
+  * inner product
+  * @param other
+  * @return the dot product
+  */
+  [[nodiscard]] GeneralizedUnderlyingField innerProduct(
+      Vector const& other) const noexcept {
+    return dot(other);
+  }
+
+  // /**
+  //  * Outer product
+  //  * @param other
+  //  * @return
+  //  */
+  // [[nodiscard]] Vector outerProduct(Vector const& other) const noexcept {
+  //   throw std::exception{"Not implemented"};
+  //   return Vector();
+  // }
+  //
+  // [[nodiscard]] Vector operator*(Vector const& other) const noexcept {
+  //   return outerProduct(other);
+  // }
+
+  // also cross product
 
   // setters
   // normalizes the vector in place
