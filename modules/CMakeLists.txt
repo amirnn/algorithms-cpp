@@ -55,27 +55,6 @@ target_sources(${ARTIFACT_NAME_DSA}
         src/dsa/utils/io/IO.ixx
 )
 
-set(ARTIFACT_NAME_GEOMETRY geometry)
-
-add_library(${ARTIFACT_NAME_GEOMETRY})
-target_sources(${ARTIFACT_NAME_GEOMETRY}
-        PRIVATE
-        PUBLIC
-        FILE_SET modules
-        TYPE CXX_MODULES
-        BASE_DIRS
-        # interfaces
-        include/geometry
-        # partitions
-        src/geometry
-        FILES
-        # geometry
-        include/geometry/Geometry.ixx
-        src/geometry/Vector.ixx
-        src/geometry/Matrix.ixx
-        src/geometry/Point.ixx
-)
-
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/install.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../cmake/export.cmake)
 
