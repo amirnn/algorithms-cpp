@@ -30,7 +30,7 @@ void selectionSortTest(datastructures::ASortableList<T>& list,
   list.template sort<SelectionSort<double>>();
   if (print) {
     for (auto i = 0; i < samples; i++) {
-      const auto val = list.popFront() * 20;
+      const auto val = list.at(i) * 20;
       std::stringstream ss;
       for (auto j = 0; j < static_cast<int>(val); j++) {
         ss << ".";
@@ -60,7 +60,7 @@ void insertionSortTest(datastructures::ASortableList<T>& list,
   list.template sort<InsertionSort<double>>();
   if (print) {
     for (auto i = 0; i < samples; i++) {
-      const auto val = list.popFront() * 20;
+      const auto val = list.at(i) * 20;
 
       std::stringstream ss;
       for (auto j = 0; j < static_cast<int>(val); j++) {
@@ -90,7 +90,7 @@ void shellSortTest(datastructures::ASortableList<T>& list,
   list.template sort<ShellSort<double>>();
   if (print) {
     for (auto i = 0; i < static_cast<int>(samples); i++) {
-      const auto val = list.popFront() * 20;
+      const auto val = list.at(i) * 20;
       std::stringstream ss;
       for (auto j = 0; j < static_cast<int>(val); j++) {
         ss << ".";
@@ -119,7 +119,7 @@ void mergeSortTest(datastructures::ASortableList<T>& list,
   list.template sort<MergeSort<double>>();
   if (print) {
     for (auto i = 0; i < static_cast<int>(samples); i++) {
-      const auto val = list.popFront() * 20;
+      const auto val = list.at(i) * 20;
       std::stringstream ss;
       for (auto j = 0; j < static_cast<int>(val); j++) {
         ss << ".";
