@@ -34,10 +34,20 @@ class MergeSort final : public ASort<T> {
   void sort(typename ASort<T>::ASortableList* list, size_t const low,
             size_t const high) noexcept {
     if (low >= high) return;
-    size_t const mid = middle(low, high);
-    sort(list, low, mid);
-    sort(list, mid + 1, high);
-    merge(list, low, high);
+    // TODO: Implement iterators for AList datastructures and implement views
+    // into them
+    // to make insertion sort faster
+    // if (high - low > 7) {
+    //   // user insertion sort
+    //
+    //
+    // }
+    else {
+      size_t const mid = middle(low, high);
+      sort(list, low, mid);
+      sort(list, mid + 1, high);
+      merge(list, low, high);
+    }
   }
   void merge(typename ASort<T>::ASortableList* list, size_t const low,
              size_t const high) noexcept {
