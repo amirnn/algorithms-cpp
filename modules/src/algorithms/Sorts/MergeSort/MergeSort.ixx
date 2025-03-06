@@ -31,6 +31,7 @@ class MergeSort final : public ASort<T> {
   }
 
  private:
+  // TODO: Make MergeSort Parallel, Use Async methods and coroutines for this.
   void sort(typename ASort<T>::ASortableList* list, size_t const low,
             size_t const high) noexcept {
     if (low >= high) return;
@@ -46,9 +47,13 @@ class MergeSort final : public ASort<T> {
       size_t const mid = middle(low, high);
       sort(list, low, mid);
       sort(list, mid + 1, high);
-      // TODO: if list[middle+1] >= list[middle] we are done, and we can return
+      // if list[middle+1] >= list[middle] we are done, and we can return
+      if (list->at(mid) <= list->at(mid+1)) return;
+      // Q: Why does this optimization lead to a linear number of compares instead of Nlog(N)?
       merge(list, low, high);
     // }
+      // Q: How many compares does mergesort—the pure version without any optimizations—make to sort an input array that is already sorted?
+      // A: It makes ~ 1/2 * nlog(n) compares, which is the best case for mergesort. We note that the optimized version that checks whether a[mid]≤a[mid+1]a[mid]≤a[mid+1] requires only n−1n−1 compares.
   }
   void merge(typename ASort<T>::ASortableList* list, size_t const low,
              size_t const high) noexcept {
@@ -72,9 +77,10 @@ class MergeSort final : public ASort<T> {
       else
         data[k] = list->at(j++);
     }
+    // copy necessary?
     // need to copy sorted data back to the list
     for (size_t k = low; k <= high; ++k) {
-      list->at(k) = data[k];
+      list->at(k) = this->m_data->at(k);
     }
     // check that the whole [low, high] is sorted
     assert(isSubArraySorted(list, low, high));

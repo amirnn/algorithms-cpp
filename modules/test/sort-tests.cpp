@@ -49,13 +49,13 @@ TEST_CASE("Shell-Sort using DynamicArray", "shell-sort-dynamic-array") {
 
 TEST_CASE("Merge-Sort using Deque", "merge-sort-deque") {
   datastructures::SortableDoublyLinkedListQueue<double> queue;
-  tests::mergeSortTest(queue, 2048, false);
+  tests::mergeSortTest(queue, 65536, false);
   REQUIRE(queue.isSorted());
 }
 
 TEST_CASE("Merge-Sort using DynamicArray", "merge-sort-dynamic-array") {
   datastructures::SortableDynamicArray<double> array;
-  tests::mergeSortTest(array, 8192, false);
+  tests::mergeSortTest(array, 134'217'728, false);
   REQUIRE(array.isSorted());
 }
 
