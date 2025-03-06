@@ -59,7 +59,8 @@ class DoublyLinkedListQueue final : public AList<T> {
   DoublyLinkedListQueue(DoublyLinkedListQueue const& other)
       : DoublyLinkedListQueue() {
     for (size_t i = 0; i < other.size(); ++i) {
-      push_back(other[i]);
+      auto t = other.at(i);
+      pushBack(std::move(t));
     }
   }
 
@@ -68,7 +69,7 @@ class DoublyLinkedListQueue final : public AList<T> {
       return *this;
     }
     for (size_t i = 0; i < other.size(); ++i) {
-      push_back(other[i]);
+      pushBack(other[i]);
     }
     return *this;
   }

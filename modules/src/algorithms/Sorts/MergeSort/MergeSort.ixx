@@ -2,14 +2,14 @@
 
 module;
 #include <sys/types.h>
-
 #include <cassert>
 #include <concepts>
+#include <memory>
 #include <stdexcept>
 export module DSA:Sort.MergeSort;
 import :Sort.ASort;
 
-namespace algorithms {
+export namespace algorithms {
 template <std::totally_ordered T>
 class MergeSort final : public ASort<T> {
  public:
@@ -24,7 +24,9 @@ class MergeSort final : public ASort<T> {
       return;
     }
     // clone will be sorted
-    std::unique_ptr<typename ASort<T>::ASortableList> clone = rdata.clone();
+    auto clone = std::unique_ptr<typename ASort<T>::ASortableList>(
+        dynamic_cast<typename ASort<T>::ASortableList*>(
+            rdata.clone().release()));
     sort(clone.get(), 0, rdata.size() - 1);
   }
 
@@ -54,10 +56,12 @@ class MergeSort final : public ASort<T> {
       if (j > high) data[k] = list->at(i++);
       else if (i > mid)
         data[k] = list->at(j++);
+      else if (list->at(i) <= list->at(j))
+        data[k] = list->at(i++);
       else
-        data[k] = list->at(i) <= list->at(j) ? list->at(i++) : list->at(j++);
+        data[k] = list->at(j++);
     }
-    // need to sorted data back to the list
+    // need to copy sorted data back to the list
     for (size_t k = low; k <= high; ++k) {
       list->at(k) = data[k];
     }
@@ -70,7 +74,8 @@ class MergeSort final : public ASort<T> {
 
   static bool isSubArraySorted(typename ASort<T>::ASortableList* list,
                                size_t const low, size_t const high) {
-    for (size_t i = low; i <= high; ++i) {
+    if (high - low <= 1) return true;
+    for (size_t i = low; i < high; ++i) {
       if (list->at(i) > list->at(i + 1)) {
         return false;
       }
