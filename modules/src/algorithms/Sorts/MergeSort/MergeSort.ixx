@@ -42,12 +42,13 @@ class MergeSort final : public ASort<T> {
     //
     //
     // }
-    else {
+    // else {
       size_t const mid = middle(low, high);
       sort(list, low, mid);
       sort(list, mid + 1, high);
+      // TODO: if list[middle+1] >= list[middle] we are done, and we can return
       merge(list, low, high);
-    }
+    // }
   }
   void merge(typename ASort<T>::ASortableList* list, size_t const low,
              size_t const high) noexcept {
