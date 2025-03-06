@@ -5,6 +5,7 @@ module;
 #include <cstddef>
 #include <cstdint>
 #include <stdexcept>
+#include <memory>
 export module DSA:List.DynamicArray;
 import :List.AList;
 

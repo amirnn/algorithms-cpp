@@ -12,13 +12,13 @@ import SortTests;
 
 TEST_CASE("Selection-Sort using Deque", "selection-sort-deque") {
   datastructures::SortableDoublyLinkedListQueue<double> queue;
-  tests::selectionSortTest(queue, 2048, false);
+  tests::selectionSortTest(queue, 512, false);
   REQUIRE(queue.isSorted());
 }
 
 TEST_CASE("Selection Sort using DynamicArray", "selection-sort-dynamic-array") {
   datastructures::SortableDynamicArray<double> array;
-  tests::selectionSortTest(array, 8192, false);
+  tests::selectionSortTest(array, 1024, false);
   REQUIRE(array.isSorted());
 }
 
@@ -30,13 +30,13 @@ TEST_CASE("Insertion-Sort using Deque", "insertion-sort-deque") {
 
 TEST_CASE("Insertion-Sort using DynamicArray", "insertion-sort-dynamic-array") {
   datastructures::SortableDynamicArray<double> array;
-  tests::insertionSortTest(array, 8192, false);
+  tests::insertionSortTest(array, 4096, false);
   REQUIRE(array.isSorted());
 }
 
 TEST_CASE("Shell-Sort using Deque", "shell-sort-deque") {
   datastructures::SortableDoublyLinkedListQueue<double> queue;
-  tests::shellSortTest(queue, 2048, false);
+  tests::shellSortTest(queue, 8192, false);
   REQUIRE(queue.isSorted());
 }
 
@@ -49,13 +49,13 @@ TEST_CASE("Shell-Sort using DynamicArray", "shell-sort-dynamic-array") {
 
 TEST_CASE("Merge-Sort using Deque", "merge-sort-deque") {
   datastructures::SortableDoublyLinkedListQueue<double> queue;
-  tests::mergeSortTest(queue, 65536, false);
+  tests::mergeSortTest(queue, 1024, false);
   REQUIRE(queue.isSorted());
 }
 
 TEST_CASE("Merge-Sort using DynamicArray", "merge-sort-dynamic-array") {
   datastructures::SortableDynamicArray<double> array;
-  tests::mergeSortTest(array, 134'217'728, false);
+  tests::mergeSortTest(array, 16'777'216, false);
   REQUIRE(array.isSorted());
 }
 

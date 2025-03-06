@@ -106,5 +106,22 @@
             },
             "binaryDir": "${sourceDir}/build/wsl/llvm"
         }
+    ],
+    "buildPresets": [
+        {
+            "name": "debug",
+            "configuration": "Debug",
+            "inheritConfigureEnvironment": true
+        },
+        {
+            "name": "release",
+            "configuration": "Release",
+            "inheritConfigureEnvironment": true
+        },
+        {
+            "name": "rel-with-deb-info",
+            "configuration": "RelWithDebInfo",
+            "inheritConfigureEnvironment": true
+        }
     ]
 }
