@@ -75,6 +75,10 @@ class DynamicArray final : public AList<T> {
 
   [[nodiscard]] size_t size() const noexcept override { return m_size; }
 
+  [[nodiscard]] std::unique_ptr<AList<T>> clone() const noexcept override {
+    return std::unique_ptr<AList<T>>(new DynamicArray<T>(*this));
+  }
+
   [[nodiscard]] T& getItemAt(size_t const index) override {
     boundsCheck(index);
     size_t t = getMappedIndex(index);
@@ -91,7 +95,7 @@ class DynamicArray final : public AList<T> {
   void pushFront(T&& element) noexcept override {
     if (isFull()) expand();
     if (this->isEmpty()) {
-      this->set(0,std::forward<T>(element));
+      this->set(0, std::forward<T>(element));
       ++m_size;
       return;
     }
@@ -104,7 +108,7 @@ class DynamicArray final : public AList<T> {
   void pushBack(T&& element) noexcept override {
     if (isFull()) expand();
     if (this->isEmpty()) {
-      this->set(0,std::forward<T>(element));
+      this->set(0, std::forward<T>(element));
       ++m_size;
       return;
     }
@@ -206,7 +210,8 @@ class DynamicArray final : public AList<T> {
   }
 
   void exchange(size_t const source, size_t const target) override {
-    if (source >= m_size || target >= m_size) throw std::out_of_range("index out of range");
+    if (source >= m_size || target >= m_size)
+      throw std::out_of_range("index out of range");
     T temp = std::move(this->at(source));
     set(source, std::move(this->at(target)));
     set(target, std::move(temp));
@@ -227,8 +232,7 @@ class DynamicArray final : public AList<T> {
   }
 
   void boundsCheck(size_t const index) const {
-    if (index >= m_size)
-      throw std::out_of_range("index out of range");
+    if (index >= m_size) throw std::out_of_range("index out of range");
   }
 
   [[nodiscard]] bool isFull() const noexcept { return m_size == m_capacity; }

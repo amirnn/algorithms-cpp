@@ -2,6 +2,8 @@
 
 module;
 #include <sys/types.h>
+
+#include <memory>
 #include <stdexcept>
 #include <utility>
 export module DSA:List.DoublyLinkedListQueue;
@@ -53,9 +55,23 @@ class DoublyLinkedListQueue final : public AList<T> {
     return *this;
   }
 
-  // delete copy constructor and assignment
-  DoublyLinkedListQueue(DoublyLinkedListQueue const& other) = delete;
-  DoublyLinkedListQueue& operator=(DoublyLinkedListQueue const& other) = delete;
+  // copy constructor and assignment
+  DoublyLinkedListQueue(DoublyLinkedListQueue const& other)
+      : DoublyLinkedListQueue() {
+    for (size_t i = 0; i < other.size(); ++i) {
+      push_back(other[i]);
+    }
+  }
+
+  DoublyLinkedListQueue& operator=(DoublyLinkedListQueue const& other) {
+    if (this == &other) {
+      return *this;
+    }
+    for (size_t i = 0; i < other.size(); ++i) {
+      push_back(other[i]);
+    }
+    return *this;
+  }
 
   ~DoublyLinkedListQueue() override { DoublyLinkedListQueue::clear(); }
 
@@ -63,6 +79,10 @@ class DoublyLinkedListQueue final : public AList<T> {
 
   // Complexity: O(1)
   [[nodiscard]] size_t size() const noexcept override { return m_size; }
+
+  [[nodiscard]] std::unique_ptr<AList<T>> clone() const noexcept override {
+    return std::make_unique<DoublyLinkedListQueue>(*this);
+  }
 
   // Complexity: O(n)
   [[nodiscard]] T& getItemAt(size_t const index) override {

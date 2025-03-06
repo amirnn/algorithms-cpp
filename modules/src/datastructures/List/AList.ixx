@@ -3,6 +3,7 @@
 module;
 #include <cstddef>
 #include <cstdint>
+#include <memory>
 export module DSA:List.AList;
 import :Math.Random;
 
@@ -16,6 +17,8 @@ class AList {
   [[nodiscard]] virtual size_t size() const noexcept = 0;
 
   [[nodiscard]] bool isEmpty() const noexcept { return size() == 0; }
+
+  [[nodiscard]] virtual std::unique_ptr<AList> clone() const noexcept = 0;
 
  protected:
   [[nodiscard]] virtual T& getItemAt(size_t index) = 0;

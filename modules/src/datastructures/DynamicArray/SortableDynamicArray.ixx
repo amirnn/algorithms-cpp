@@ -16,8 +16,26 @@ class SortableDynamicArray final : public ASortableList<T> {
   SortableDynamicArray()
       : ASortableList<T>(), m_array{std::make_unique<DynamicArray<T>>()} {}
 
+  // copy constructor
+  SortableDynamicArray(SortableDynamicArray const& other)
+      : SortableDynamicArray() {
+    *m_array = *other.m_array;  // use the copy constructor from DynamicArray
+  }
+
+  SortableDynamicArray& operator=(SortableDynamicArray const& other) {
+    if (this == &other) {
+      return *this;
+    }
+    *m_array = *other.m_array;  // use the copy constructor from DynamicArray
+    return *this;
+  }
+
   [[nodiscard]] size_t size() const noexcept override {
     return m_array->size();
+  }
+
+  [[nodiscard]] std::unique_ptr<AList<T>> clone() const noexcept override {
+    return std::make_unique<SortableDynamicArray>(*this);
   }
 
  protected:

@@ -19,13 +19,24 @@ class SortableDoublyLinkedListQueue final : public ASortableList<T> {
       : ASortableList<T>(),
         m_list{std::make_unique<DoublyLinkedListQueue<T>>()} {}
 
-  // delete copy constructor and assignment
-  SortableDoublyLinkedListQueue(SortableDoublyLinkedListQueue const& other) =
-      delete;
+  // copy constructor and assignment
+  SortableDoublyLinkedListQueue(SortableDoublyLinkedListQueue const& other) {
+    m_list = std::make_unique<DoublyLinkedListQueue<T>>(*other.m_list);
+  }
   SortableDoublyLinkedListQueue& operator=(
-      SortableDoublyLinkedListQueue const& other) = delete;
+      SortableDoublyLinkedListQueue const& other) {
+    if (this != &other) {
+      return *this;
+    }
+    m_list = std::make_unique<DoublyLinkedListQueue<T>>(*other.m_list);
+    return *this;
+  }
 
   [[nodiscard]] size_t size() const noexcept override { return m_list->size(); }
+
+  [[nodiscard]] std::unique_ptr<AList<T>> clone() const noexcept override {
+    return std::make_unique<SortableDoublyLinkedListQueue>(*this);
+  }
 
   [[nodiscard]] T& getItemAt(size_t const index) override {
     return m_list->at(index);
