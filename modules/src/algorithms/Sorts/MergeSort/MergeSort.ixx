@@ -41,10 +41,10 @@ class MergeSort final : public ASort<T> {
              size_t const high) noexcept {
     if (high - low < 1) return;
     // check for invariants
-    assert(
-        isSubArraySorted(list, low, middle(low, high)));  // left half is sorted
-    assert(isSubArraySorted(list, middle(low, high) + 1,
-                            high));  // right half is sorted
+    // left half is sorted
+    assert(isSubArraySorted(list, low, middle(low, high)));
+    // right half is sorted
+    assert(isSubArraySorted(list, middle(low, high) + 1, high));
 
     auto& data = *this->m_data;
     size_t i = low;
@@ -56,6 +56,10 @@ class MergeSort final : public ASort<T> {
         data[k] = list->at(j++);
       else
         data[k] = list->at(i) <= list->at(j) ? list->at(i++) : list->at(j++);
+    }
+    // need to sorted data back to the list
+    for (size_t k = low; k <= high; ++k) {
+      list->at(k) = data[k];
     }
     // check that the whole [low, high] is sorted
     assert(isSubArraySorted(list, low, high));
