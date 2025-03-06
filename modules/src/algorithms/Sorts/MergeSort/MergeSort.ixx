@@ -81,7 +81,7 @@ class MergeSort final : public ASort<T> {
     // copy necessary?
     // need to copy sorted data back to the list
     for (size_t k = low; k <= high; ++k) {
-      list->at(k) = this->data.at(k);
+      list->at(k) = data.at(k);
     }
     // check that the whole [low, high] is sorted
     assert(isSubArraySorted(list, low, high));
