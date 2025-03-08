@@ -69,8 +69,8 @@
               "rhs": "Darwin"
             },
             "environment": {
-                "CC": "/opt/homebrew/opt/llvm/bin/clang",
-                "CXX": "/opt/homebrew/opt/llvm/bin/clang++"
+                "CC": "$env{HOME}/Library/llvm/bin/clang",
+                "CXX": "$env{HOME}/Library/llvm/bin/clang++"
             },
             "binaryDir": "${sourceDir}/build/macos/llvm"
         },
