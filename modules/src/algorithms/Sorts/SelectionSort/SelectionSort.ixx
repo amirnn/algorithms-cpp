@@ -4,6 +4,7 @@ module;
 #include <concepts>
 #include <limits>
 #include <stdexcept>
+#include <sys/types.h>
 export module DSA:Sort.SelectionSort;
 import :Sort.ASort;
 

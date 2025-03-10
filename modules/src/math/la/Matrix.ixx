@@ -3,6 +3,7 @@
 module;
 #include <cstdint>
 #include <cstddef>
+#include <sys/types.h>
 export module DSA:Math.Matrix;
 
 export namespace la {

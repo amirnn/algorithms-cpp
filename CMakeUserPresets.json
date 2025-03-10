@@ -1,5 +1,5 @@
 {
-    "version": 7,
+    "version": 6,
     "cmakeMinimumRequired": {
         "major": 3,
         "minor": 31,
@@ -70,7 +70,9 @@
             },
             "environment": {
                 "CC": "$env{HOME}/Library/llvm/bin/clang",
-                "CXX": "$env{HOME}/Library/llvm/bin/clang++"
+                "CXX": "$env{HOME}/Library/llvm/bin/clang++",
+                "CPPFLAGS": "-fuse-ld=lld",
+                "CFLAGS": "-fuse-ld=lld"
             },
             "binaryDir": "${sourceDir}/build/macos/llvm"
         },
@@ -106,22 +108,23 @@
             },
             "binaryDir": "${sourceDir}/build/wsl/llvm"
         }
-    ],
-    "buildPresets": [
-        {
-            "name": "debug",
-            "configuration": "Debug",
-            "inheritConfigureEnvironment": true
-        },
-        {
-            "name": "release",
-            "configuration": "Release",
-            "inheritConfigureEnvironment": true
-        },
-        {
-            "name": "rel-with-deb-info",
-            "configuration": "RelWithDebInfo",
-            "inheritConfigureEnvironment": true
-        }
     ]
+    // ,
+    // "buildPresets": [
+    //     {
+    //         "name": "debug",
+    //         "configuration": "Debug",
+    //         "inheritConfigureEnvironment": true
+    //     },
+    //     {
+    //         "name": "release",
+    //         "configuration": "Release",
+    //         "inheritConfigureEnvironment": true
+    //     },
+    //     {
+    //         "name": "rel-with-deb-info",
+    //         "configuration": "RelWithDebInfo",
+    //         "inheritConfigureEnvironment": true
+    //     }
+    // ]
 }
