@@ -2,6 +2,9 @@
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../libs/catch2 libs/catch2)
 #find_package(Catch2 3 PATHS ${CMAKE_CURRENT_SOURCE_DIR}/../../libs/catch2 REQUIRED)
+
+# disable extra targets added by ctest
+set_property(GLOBAL PROPERTY CTEST_TARGETS_ADDED 1)
 include(CTest)
 include(Catch)
 
