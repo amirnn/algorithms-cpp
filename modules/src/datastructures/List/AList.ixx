@@ -19,8 +19,8 @@ class AList {
     Iterator& operator--() { --m_index; return *this; }
     bool operator==(Iterator const& other) const { return m_index == other.m_index; }
     bool operator!=(Iterator const& other) const { return m_index != other.m_index; }
-    typename Iterator::reference operator*() { return m_data[m_index]; }
-    typename Iterator::reference operator*() const { return m_data[m_index]; }
+    typename Iterator::reference operator*() { return (*m_data)[m_index]; }
+    typename Iterator::reference operator*() const { return (*m_data)[m_index]; }
 
   private:
     size_t m_index;

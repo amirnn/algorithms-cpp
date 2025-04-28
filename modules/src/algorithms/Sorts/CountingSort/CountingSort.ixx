@@ -8,13 +8,14 @@ export module DSA:Sort.CountingSort;
 import :Sort.ASort;
 import :List.DynamicArray;
 
-namespace algorithms {
+export namespace algorithms {
 
-template <std::totally_ordered T>
-concept IndexCastable = requires(std::remove_cv_t<T> t, size_t i) {
-  std::is_convertible_v<T, size_t>;
-  { static_cast<size_t>(t) - i } -> std::integral;
-};
+template <typename T>
+concept IndexCastable =
+    std::totally_ordered<T> && requires(std::remove_cv_t<T> t, size_t i) {
+      std::is_convertible_v<T, size_t>;
+      { static_cast<size_t>(t) - i } -> std::integral;
+    };
 
 template <IndexCastable T>
 class CountingSort final : public ASort<T> {
@@ -42,7 +43,7 @@ void CountingSort<T>::sort(typename ASort<T>::ASortableList* data) {
 
   // create an array that holds the indices of each item
   for (size_t i = 0; i < range; ++i) {
-    auto const& item = this->m_data->getItemAt(i);
+    auto const& item = (*this->m_data)[i];
     // count the number of each item
     if (item == lowerBound + i) {
       ++indices[i];
@@ -55,7 +56,7 @@ void CountingSort<T>::sort(typename ASort<T>::ASortableList* data) {
   // sort
   // 1. create an auxiliary array for final sorted items
   datastructures::DynamicArray<T> auxiliary{this->m_data->size()};
-  for (auto& item : this->m_data) {
+  for (auto& item : *this->m_data) {
     decltype(auto) index = indices[item - lowerBound] - 1;
     auxiliary[index] = std::move(item);
     --indices[item - lowerBound];
@@ -66,8 +67,8 @@ template <IndexCastable T>
 T CountingSort<T>::findUpperBound(typename ASort<T>::ASortableList* data) {
   if (data == nullptr) throw std::invalid_argument("data is null");
   T upperBound = std::numeric_limits<T>::min();
-  for (size_t i = 0; i < data->getSize(); ++i) {
-    T const& item = data->getElement(i);
+  for (size_t i = 0; i < data->size(); ++i) {
+    T const& item = data->at(i);
     if (item > upperBound) upperBound = item;
   }
   return upperBound;
@@ -76,8 +77,8 @@ template <IndexCastable T>
 T CountingSort<T>::findLowerBound(typename ASort<T>::ASortableList* data) {
   if (data == nullptr) throw std::invalid_argument("data is null");
   T lowerBound = std::numeric_limits<T>::max();
-  for (size_t i = 0; i < data->getSize(); ++i) {
-    T const& item = data->getElement(i);
+  for (size_t i = 0; i < data->size(); ++i) {
+    T const& item = data->at(i);
     if (item < lowerBound) lowerBound = item;
   }
   return lowerBound;

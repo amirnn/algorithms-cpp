@@ -59,6 +59,12 @@ TEST_CASE("Merge-Sort using DynamicArray", "merge-sort-dynamic-array") {
   REQUIRE(array.isSorted());
 }
 
+TEST_CASE("Counting-Sort using DynamicArray", "counting-sort-dynamic-array") {
+  datastructures::SortableDynamicArray<int32_t> array;
+  tests::countingSortTest(array, 512, false);
+  REQUIRE(array.isSorted());
+}
+
 // int main ([[maybe_unused]] int argc,[[maybe_unused]] char** argv) {
 //
 //   // datastructures::SortableDoublyLinkedListQueue<double> list;

@@ -16,8 +16,15 @@ class DynamicArray final : public AList<T> {
   DynamicArray() : AList<T>() { m_data = new T[m_capacity]; }
 
   DynamicArray(std::initializer_list<T> const& initList) : AList<T>() {
-    for (auto it = initList.begin(); it != initList.end(); ++it) {
-      pushBack(*it);
+    for (auto const& it: initList) {
+      pushBack(it);
+    }
+  }
+
+  DynamicArray(std::initializer_list<T>&& initList) : AList<T>() {
+    for (auto& it: initList) {
+      auto item = std::move(it);
+      pushBack(std::move(item));
     }
   }
 
