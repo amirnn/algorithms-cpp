@@ -15,9 +15,9 @@
             "hidden": true
         },
         {
-            "name": "windows",
+            "name": "windows-msvc",
             "inherits": "default",
-            "displayName": "Windows-only configuration",
+            "displayName": "msvc",
             "description": "This build is only available on Windows",
             "condition": {
                 "type": "equals",
@@ -29,16 +29,16 @@
         {
             "name": "windows-llvm",
             "inherits": "default",
-            "displayName": "Windows-only configuration",
+            "displayName": "llvm",
             "description": "This build is only available on Windows uses LLVM",
             "condition": {
-              "type": "equals",
-              "lhs": "${hostSystemName}",
-              "rhs": "Windows"
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
             },
             "environment": {
-                "CC": "C:/Program Files/LLVM/bin/clang",
-                "CXX": "C:/Program Files/LLVM/bin/clang++"
+                "CC": "C:/Local/LLVM/bin/clang",
+                "CXX": "C:/Local/LLVM/bin/clang++"
             },
             "binaryDir": "${sourceDir}/build/windows/llvm"
         },
@@ -48,9 +48,9 @@
             "displayName": "macOS-GCC",
             "description": "Only available on macOS uses GCC from Homebrew",
             "condition": {
-              "type": "equals",
-              "lhs": "${hostSystemName}",
-              "rhs": "Darwin"
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Darwin"
             },
             "environment": {
                 "CC": "/opt/homebrew/bin/gcc-14",
@@ -64,9 +64,9 @@
             "displayName": "macOS-LLVM",
             "description": "Only available on macOS uses LLVM from Homebrew",
             "condition": {
-              "type": "equals",
-              "lhs": "${hostSystemName}",
-              "rhs": "Darwin"
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Darwin"
             },
             "environment": {
                 "CC": "$env{HOME}/Library/llvm/bin/clang",
@@ -108,23 +108,37 @@
             },
             "binaryDir": "${sourceDir}/build/wsl/llvm"
         }
+    ],
+    "buildPresets": [
+        {
+            "name": "debug-windows-msvc",
+            "configurePreset": "windows-msvc",
+            "configuration": "Debug"
+        },
+        {
+            "name": "release-windows-msvc",
+            "configurePreset": "windows-msvc",
+            "configuration": "Release"
+        },
+        {
+            "name": "rel-with-deb-info-windows-msvc",
+            "configurePreset": "windows-msvc",
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "debug-windows-llvm",
+            "configurePreset": "windows-llvm",
+            "configuration": "Debug"
+        },
+        {
+            "name": "release-windows-llvm",
+            "configurePreset": "windows-llvm",
+            "configuration": "Release"
+        },
+        {
+            "name": "rel-with-deb-info-llvm",
+            "configurePreset": "windows-llvm",
+            "configuration": "RelWithDebInfo"
+        }
     ]
-    // ,
-    // "buildPresets": [
-    //     {
-    //         "name": "debug",
-    //         "configuration": "Debug",
-    //         "inheritConfigureEnvironment": true
-    //     },
-    //     {
-    //         "name": "release",
-    //         "configuration": "Release",
-    //         "inheritConfigureEnvironment": true
-    //     },
-    //     {
-    //         "name": "rel-with-deb-info",
-    //         "configuration": "RelWithDebInfo",
-    //         "inheritConfigureEnvironment": true
-    //     }
-    // ]
 }
