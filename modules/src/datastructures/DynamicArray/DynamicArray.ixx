@@ -4,8 +4,8 @@ module;
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>
-#include <stdexcept>
 #include <memory>
+#include <stdexcept>
 export module DSA:List.DynamicArray;
 import :List.AList;
 
@@ -14,6 +14,20 @@ template <typename T>
 class DynamicArray final : public AList<T> {
  public:
   DynamicArray() : AList<T>() { m_data = new T[m_capacity]; }
+
+  DynamicArray(std::initializer_list<T> const& initList) : AList<T>() {
+    for (auto it = initList.begin(); it != initList.end(); ++it) {
+      pushBack(*it);
+    }
+  }
+
+  explicit DynamicArray(size_t const capacity)
+    requires std::is_default_constructible_v<T>
+      : AList<T>(), m_capacity{capacity} {
+    m_data = new T[m_capacity];
+    pushBack(T{});
+  }
+
   ~DynamicArray() override {
     delete[] m_data;
     m_data = nullptr;

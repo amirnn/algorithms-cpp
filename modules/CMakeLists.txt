@@ -46,6 +46,9 @@ target_sources(${ARTIFACT_NAME_DSA}
         src/algorithms/Sorts/MergeSort/MergeSort.ixx
         src/algorithms/Sorts/QuickSort/QuickSort.ixx
         src/algorithms/Sorts/SelectionSort/SelectionSort.ixx
+
+        src/algorithms/Sorts/CountingSort/CountingSort.ixx
+
         # math
         include/math/Math.ixx
         src/math/la/Matrix.ixx

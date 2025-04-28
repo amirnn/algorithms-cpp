@@ -9,6 +9,7 @@ export import :Sort.ShellSort;
 export import :Sort.MergeSort;
 export import :Sort.QuickSort;
 export import :Sort.SelectionSort;
+export import :Sort.CountingSort;
 
 
 
