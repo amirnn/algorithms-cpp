@@ -42,9 +42,12 @@ void CountingSort<T>::sort(typename ASort<T>::ASortableList* data) {
     indices[i] += indices[i - 1];
   }
   // sort
-
-
-
+  // 1. create an auxiliary array for final sorted items
+  datastructures::DynamicArray<T> sorted{this->m_data->size()};
+  for (size_t i = 0; i < range; ++i) {
+    sorted[indices[range - i - 1]] = this->m_data->getItemAt(i);
+    --indices[range - i - 1];
+  }
 }
 template <std::totally_ordered T>
 T CountingSort<T>::findUpperBound(typename ASort<T>::ASortableList* data) {
