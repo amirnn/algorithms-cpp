@@ -10,6 +10,22 @@ import :Math.Random;
 export namespace datastructures {
 template <typename T>
 class AList {
+
+ public:
+  class Iterator: public std::iterator<std::forward_iterator_tag, T, size_t> {
+  public:
+    explicit Iterator(size_t const index = 0ul): m_index {index}{}
+    Iterator& operator++() { ++m_index; return *this; }
+    Iterator& operator--() { --m_index; return *this; }
+    bool operator==(Iterator const& other) const { return m_index == other.m_index; }
+    bool operator!=(Iterator const& other) const { return m_index != other.m_index; }
+    typename Iterator::reference operator*() { return m_data[m_index]; }
+    typename Iterator::reference operator*() const { return m_data[m_index]; }
+
+  private:
+    size_t m_index;
+    AList* m_data{};
+  };
  public:
   virtual ~AList() = default;
 
@@ -19,6 +35,10 @@ class AList {
   [[nodiscard]] bool isEmpty() const noexcept { return size() == 0; }
 
   [[nodiscard]] virtual std::unique_ptr<AList> clone() const noexcept = 0;
+
+  [[nodiscard]] Iterator begin() noexcept { return Iterator(0); }
+  [[nodiscard]] Iterator end() noexcept { return Iterator(size()); }
+
 
  protected:
   [[nodiscard]] virtual T& getItemAt(size_t index) = 0;

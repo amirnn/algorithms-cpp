@@ -29,7 +29,21 @@ void CountingSort<T>::sort(typename ASort<T>::ASortableList* data) {
   auto range = upperBound - lowerBound + 1;
   static_assert(std::is_integral_v<std::remove_cv_t<decltype(range)>>, "range should be integral");
   datastructures::DynamicArray<T> indices (range);
-  // TODO: Continue implementation from here
+  for (auto& element : indices) { element = 0; }
+
+  // create an array that holds the indices of each item
+  for (size_t i = 0; i < range; ++i) {
+    auto const& item = this->m_data->getItemAt(i);
+    // count the number of each item
+    if ( item == lowerBound + i ) { ++indices[i]; }
+  }
+  // accumulate number of items (histogram)
+  for (size_t i = 1; i < range; ++i) {
+    indices[i] += indices[i - 1];
+  }
+  // sort
+
+
 
 }
 template <std::totally_ordered T>

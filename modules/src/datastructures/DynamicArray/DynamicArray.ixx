@@ -21,11 +21,13 @@ class DynamicArray final : public AList<T> {
     }
   }
 
-  explicit DynamicArray(size_t const capacity)
-    requires std::is_default_constructible_v<T>
-      : AList<T>(), m_capacity{capacity} {
+  explicit DynamicArray(size_t const capacity, T value = T{})
+  requires std::is_default_constructible_v<T>
+    : AList<T>(), m_capacity{capacity} {
     m_data = new T[m_capacity];
-    pushBack(T{});
+    for( auto& item: *this) {
+      item = value;
+    }
   }
 
   ~DynamicArray() override {
