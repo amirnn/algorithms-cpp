@@ -12,7 +12,7 @@ template <typename T>
 class AList {
 
  public:
-  class Iterator: public std::iterator<std::forward_iterator_tag, T, size_t> {
+  class Iterator: public std::iterator<std::bidirectional_iterator_tag, T, size_t> {
   public:
     explicit Iterator(size_t const index = 0ul): m_index {index}{}
     Iterator& operator++() { ++m_index; return *this; }
