@@ -12,8 +12,13 @@
             "description": "Default build using Ninja Multi-Config generator",
             "generator": "Ninja Multi-Config",
             "binaryDir": "${sourceDir}/build/",
-            "hidden": true
+            "hidden": true,
+            "cacheVariables": {
+                // compile commands
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+            }
         },
+        // windows only
         {
             "name": "windows-msvc",
             "inherits": "default",
@@ -42,24 +47,9 @@
             },
             "binaryDir": "${sourceDir}/build/windows/llvm"
         },
+        // macos only
         {
-            "name": "macOS-GCC",
-            "inherits": "default",
-            "displayName": "macOS-GCC",
-            "description": "Only available on macOS uses GCC from Homebrew",
-            "condition": {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Darwin"
-            },
-            "environment": {
-                "CC": "/opt/homebrew/bin/gcc-14",
-                "CXX": "/opt/homebrew/bin/g++-14"
-            },
-            "binaryDir": "${sourceDir}/build/macos/gcc"
-        },
-        {
-            "name": "macOS-LLVM",
+            "name": "macos-llvm",
             "inherits": "default",
             "displayName": "macOS-LLVM",
             "description": "Only available on macOS uses LLVM from Homebrew",
@@ -69,15 +59,45 @@
                 "rhs": "Darwin"
             },
             "environment": {
-                "CC": "$env{HOME}/Library/llvm/bin/clang",
-                "CXX": "$env{HOME}/Library/llvm/bin/clang++",
-                "CPPFLAGS": "-fuse-ld=lld",
-                "CFLAGS": "-fuse-ld=lld"
+                "LDFLAGS": "-L/opt/homebrew/opt/llvm/lib"
+            },
+            "cacheVariables": {
+                // C
+                "CMAKE_C_COMPILER_ID": "Clang-C", // located at /opt/homebrew/share/cmake/Modules/Compiler/
+                "CMAKE_C_COMPILER_VERSION": "20.1.3",
+                // "CMAKE_C_COMPILER": "/opt/homebrew/opt/llvm/bin/clang",
+                // "CMAKE_C_FLAGS": "-I/opt/homebrew/opt/llvm/include",
+                // C++
+                "CMAKE_CXX_COMPILER_ID": "Clang-CXX",
+                "CMAKE_CXX_COMPILER_VERSION": "20.1.3"
+                // "CMAKE_CXX_COMPILER": "/opt/homebrew/opt/llvm/bin/clang++",
+                // "CMAKE_CXX_FLAGS": "-I/opt/homebrew/opt/llvm/include"
             },
             "binaryDir": "${sourceDir}/build/macos/llvm"
         },
         {
-            "name": "linux-GCC",
+            "name": "macos-gcc",
+            "inherits": "default",
+            "displayName": "macOS-GCC",
+            "description": "Only available on macOS uses GCC from Homebrew",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Darwin"
+            },
+            "cacheVariables": {
+                // C
+                "CMAKE_C_COMPILER_ID": "GNU-C",
+                "CMAKE_C_COMPILER": "/opt/homebrew/bin/gcc-14",
+                // C++
+                "CMAKE_CXX_COMPILER_ID": "GNU-CXX",
+                "CMAKE_CXX_COMPILER": "/opt/homebrew/bin/g++-14"
+            },
+            "binaryDir": "${sourceDir}/build/macos/gcc"
+        },
+        // linux only
+        {
+            "name": "linux-gcc",
             "inherits": "default",
             "displayName": "linux-LLVM",
             "description": "Only available on Linux uses gcc-14",
@@ -93,7 +113,7 @@
             "binaryDir": "${sourceDir}/build/wsl/gcc"
         },
         {
-            "name": "linux-LLVM",
+            "name": "linux-llvm",
             "inherits": "default",
             "displayName": "linux-LLVM",
             "description": "Only available on Linux uses Clang-19 and LLVM",
@@ -110,6 +130,7 @@
         }
     ],
     "buildPresets": [
+        // windows only
         {
             "name": "debug-windows-msvc",
             "configurePreset": "windows-msvc",
@@ -138,6 +159,37 @@
         {
             "name": "rel-with-deb-info-llvm",
             "configurePreset": "windows-llvm",
+            "configuration": "RelWithDebInfo"
+        },
+        // macos only
+        {
+            "name": "debug-macos-llvm",
+            "configurePreset": "macos-llvm",
+            "configuration": "Debug"
+        },
+        {
+            "name": "release-macos-llvm",
+            "configurePreset": "macos-llvm",
+            "configuration": "Release"
+        },
+        {
+            "name": "rel-with-deb-info-macos-llvm",
+            "configurePreset": "macos-llvm",
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "debug-macos-gcc",
+            "configurePreset": "macos-gcc",
+            "configuration": "Debug"
+        },
+        {
+            "name": "release-macos-gcc",
+            "configurePreset": "macos-gcc",
+            "configuration": "Release"
+        },
+        {
+            "name": "rel-with-deb-info-gcc",
+            "configurePreset": "macos-gcc",
             "configuration": "RelWithDebInfo"
         }
     ]
